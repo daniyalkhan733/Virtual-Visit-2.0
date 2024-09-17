@@ -1,0 +1,16 @@
+---
+const {title,description,image,link} = Astro.props
+---
+    <div class="relative group p-2 bg-green-200 rounded-xl">
+      <img src={image} alt="Card Image" class="rounded-xl w-full md:h-80 h-64 object-fit transition-all duration-300 ease-in-out" onclick="toggleDetails(this)">
+      <h2 class="flex text-center text-2xl justify-center font-bold">{title}</h2>
+      <div class="absolute inset-0 flex flex-col items-center justify-center bg-green-100 bg-opacity-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out p-4 text-center rounded-xl">
+          <h2 class="text-xl font-semibold mb-2">{title}</h2>
+          <p class="mb-4">{description}</p>
+          <a href={link}>
+          <button class="px-4 py-2 bg-green-700 text-white rounded-md flex items-center">
+              3D Modal
+              <img src="/arrow.svg" alt="" class="ml-2 w-8 h-8">
+          </button></a>
+      </div>
+  </div>

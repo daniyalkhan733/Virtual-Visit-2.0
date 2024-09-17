@@ -1,0 +1,36 @@
+<section class="py-10 bg-[url('/assets/images/homepage-bg.jpg')] bg-no-repeat bg-cover relative">
+    <div class="absolute inset-0  backdrop-blur-sm"></div>
+    <div class="relative flex align-middle justify-center p-2 bg-black rounded-lg max-w-2xl mx-auto">
+      <div id="container" class="md:w-[700px] w-full md:h-[400px] h-[200px]"></div>
+    </div>
+  </section>
+  
+<script is:inline src="//cdnjs.cloudflare.com/ajax/libs/three.js/105/three.js"></script>
+<script is:inline src="//cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
+  <script is:inline>
+    var panorama, viewer, container, infospot, infospot2;
+
+    container = document.querySelector('#container');
+
+    panorama = new PANOLENS.ImagePanorama('/assets/images360/garden-360.jpg');
+
+
+    infospot = new PANOLENS.Infospot();
+    infospot.position.set( 1000, 100, -2000 );
+    infospot.addHoverText( 'This is Something crazy' );
+
+    infospot2 = new PANOLENS.Infospot();
+    infospot2.position.set( 1000, 100, 2000 );
+    infospot2.addHoverText( 'This is Test' );
+
+    panorama.add(infospot , infospot2);
+
+    viewer = new PANOLENS.Viewer({
+      container: container
+    });
+    viewer.add(panorama);
+  </script>
+
+
+
+

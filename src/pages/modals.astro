@@ -1,0 +1,89 @@
+---
+import SingleCard from "../components/modals/SingleCard.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout>
+  <div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search plants..."
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <SingleCard
+        title="Kalanchoe Flower"
+        description="The Kalanchoes are thick leaved elegant flowering succulent houseplants. Make your home garden more vibrant and full of colors by bringing these 3 divine flowering plants."
+        image="/assets/images/kalanchoe-flower.jpg"
+        link="#"
+      />
+      <SingleCard
+        title="Syngonium Podophyllum"
+        description="If the juvenile foliage along with a more compact plant is preferred, cut off all the climbing stems that develop, this will keep it bushy and neat. The leaves will be arrow-shaped rather than the adult lobed style."
+        image="/assets/images/syngonium-podophyllum.jpg"
+        link="/card1"
+      />
+      <SingleCard
+        title="Barbados Cherry Tree"
+        description="Growing Barbados Cherry is an easy way to add a tropical flair to your garden. When you know its important and how to care for Barbados Cherry plant, you will be rewarded with many years of lovely fruits."
+        image="/assets/images/barbados-cherry-tree.jpg"
+        link="/card1"
+      />
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleDetails(imageElement) {
+      // Toggle the blur class on the image
+      imageElement.classList.toggle("blurred");
+
+      // Find the card's overlay and toggle its visibility
+      const overlay = imageElement.nextElementSibling;
+      if (overlay.style.opacity === "1") {
+        overlay.style.opacity = "0";
+      } else {
+        overlay.style.opacity = "1";
+      }
+    }
+
+    function searchPlants() {
+      const searchInput = document.getElementById('searchInput');
+      const cardContainer = document.getElementById('cardContainer');
+      const cards = cardContainer.querySelectorAll('.single-card'); // Adjusted query selector
+
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        let visibleCards = 0;
+
+        cards.forEach(card => {
+          const title = card.querySelector('h2').textContent.toLowerCase();
+          if (title.includes(searchTerm)) {
+            card.style.display = 'block';
+            visibleCards++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Adjust grid layout based on visible cards
+        if (visibleCards === 0) {
+          cardContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">No plants found matching your search.</p>';
+        } else {
+          cardContainer.className = `grid grid-cols-1 ${visibleCards === 1 ? 'gap-10' : (visibleCards === 2 ? 'sm:grid-cols-2 gap-10' : 'sm:grid-cols-2 lg:grid-cols-3 gap-10')}`;
+        }
+      });
+    }
+
+    // Call the searchPlants function when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', searchPlants);
+  </script>
+
+  <style>
+    .blurred {
+      filter: blur(5px);
+    }
+  </style>
+</MainLayout>
