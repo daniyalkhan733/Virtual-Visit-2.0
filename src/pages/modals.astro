@@ -1,19 +1,45 @@
 ---
 import SingleCard from "../components/modals/SingleCard.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+import House from "../components/modals/House.astro";
 ---
-
 <MainLayout>
   <div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
+    <div class="mb-8 relative">
+      <!-- Search Icon on the left -->
+      <img
+        src="/search.svg" 
+        alt="Search Icon"
+        class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 pointer-events-none" 
+      />
+    
+      <!-- Search Input -->
       <input
+        onkeyup="search()"
         type="text"
-        id="searchInput"
+        id="search-plant"
         placeholder="Search plants..."
-        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full pl-12 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    
+      <!-- Clear (Cross) Icon on the right -->
+      <img
+        src="/clear.svg"
+        alt="Clear Icon"
+        class="absolute right-1 top-1/2 transform -translate-y-1/2 w-8 h-8 cursor-pointer"
+        id="clear-search"
+        onclick="clearSearch()"
       />
     </div>
-    <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    
+    <div id="no-data" class="hidden">
+    <div class="flex flex-col items-center justify-center h-64">
+      <img src="/i-hex.svg" alt="" />
+      <h2 class="text-4xl font-semibold text-gray-900 mb-2">No Plants Found</h2>
+      <!-- <p class="text-gray-500">you haven't created any support cases yet</p> -->
+    </div></div>
+    
+    <div id="plant-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
       <SingleCard
         title="Kalanchoe Flower"
         description="The Kalanchoes are thick leaved elegant flowering succulent houseplants. Make your home garden more vibrant and full of colors by bringing these 3 divine flowering plants."
@@ -34,7 +60,10 @@ import MainLayout from "../layouts/MainLayout.astro";
       />
     </div>
   </div>
-
+  <div>
+    <House />
+  </div>
+  <!-- <script src="../components/modals/search.js"></script> -->
   <script is:inline>
     function toggleDetails(imageElement) {
       // Toggle the blur class on the image
@@ -47,39 +76,46 @@ import MainLayout from "../layouts/MainLayout.astro";
       } else {
         overlay.style.opacity = "1";
       }
-    }
-
-    function searchPlants() {
-      const searchInput = document.getElementById('searchInput');
-      const cardContainer = document.getElementById('cardContainer');
-      const cards = cardContainer.querySelectorAll('.single-card'); // Adjusted query selector
-
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        let visibleCards = 0;
-
-        cards.forEach(card => {
-          const title = card.querySelector('h2').textContent.toLowerCase();
-          if (title.includes(searchTerm)) {
-            card.style.display = 'block';
-            visibleCards++;
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        // Adjust grid layout based on visible cards
-        if (visibleCards === 0) {
-          cardContainer.innerHTML = '<p class="col-span-full text-center text-gray-500">No plants found matching your search.</p>';
+    };
+    const search = () => {
+    // alert("Search Functionality is not yet implemented");
+    const searchbox = document.getElementById("search-plant").value.toUpperCase();
+    const storeitems = document.getElementById("plant-list");
+    const plant = document.querySelectorAll("#plant");
+    const pname = storeitems.getElementsByTagName("h2");
+    let found = false;
+  
+    for (var i = 0; i < pname.length; i++) {
+      let match = plant[i].getElementsByTagName('h2')[0];
+  
+      if (match) {
+        let textvalue = match.textContent || match.innerHTML;
+  
+        if (textvalue.toUpperCase().indexOf(searchbox) > -1) {
+          plant[i].style.display = "";
+          found = true;
         } else {
-          cardContainer.className = `grid grid-cols-1 ${visibleCards === 1 ? 'gap-10' : (visibleCards === 2 ? 'sm:grid-cols-2 gap-10' : 'sm:grid-cols-2 lg:grid-cols-3 gap-10')}`;
+          plant[i].style.display = "none";
         }
-      });
-    }
+      }
+      const noDataDiv = document.getElementById("no-data");
+      if (found === true) {
 
-    // Call the searchPlants function when the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', searchPlants);
+        noDataDiv.classList.add("hidden");
+      } else {
+        noDataDiv.classList.remove("hidden");
+      }
+    }
+  
+  };
+   // Clear search function
+   function clearSearch() {
+    const searchInput = document.getElementById('search-plant');
+    searchInput.value = '';  // Clear the input field
+    search();  // Optionally, re-trigger the search to reset the filter
+  }
   </script>
+
 
   <style>
     .blurred {
