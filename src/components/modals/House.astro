@@ -1,78 +1,68 @@
+<style>
+    body { margin: 0; }
+    canvas { display: block; }
+</style>
 
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+<!-- Three.js and GLTFLoader -->
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
+<script is:inline>
+    // Initialize scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother edges
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x1f1f1f, 1); // Set a background color (dark gray)
+    document.body.appendChild(renderer.domElement);
 
-    <!-- Three.js, MTLLoader, OBJLoader, and OrbitControls -->
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
-    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    // Add soft ambient light with a warm tone
+    const ambientLight = new THREE.AmbientLight(0xffccaa, 0.6); // Slightly warm ambient light
+    scene.add(ambientLight);
 
-    <script is:inline>
-        // Initialize scene, camera, and renderer
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother edges
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x1f1f1f, 1); // Set a background color (dark gray)
-        document.body.appendChild(renderer.domElement);
+    // Add a directional light for strong highlights and shadows
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White directional light
+    directionalLight.position.set(10, 20, 15).normalize();
+    directionalLight.castShadow = true; // Enable shadow casting
+    scene.add(directionalLight);
 
-        // Add soft ambient light with a warm tone
-        const ambientLight = new THREE.AmbientLight(0xffccaa, 0.6); // Slightly warm ambient light
-        scene.add(ambientLight);
+    // Add a secondary directional light for more depth
+    const secondaryLight = new THREE.DirectionalLight(0xffbbaa, 0.4); // Soft orange secondary light for warmth
+    secondaryLight.position.set(-10, 5, 10);
+    scene.add(secondaryLight);
 
-        // Add a directional light for strong highlights and shadows
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White directional light
-        directionalLight.position.set(10, 20, 15).normalize();
-        directionalLight.castShadow = true; // Enable shadow casting
-        scene.add(directionalLight);
+    // Load GLTF model
+    const gltfLoader = new THREE.GLTFLoader();
+    gltfLoader.load('/assets/models/hut.gltf', function (gltf) {
+        const model = gltf.scene;
+        scene.add(model);
+        model.position.set(0, -1, 0); // Adjust the model's position
+        model.scale.set(1.5, 1.5, 1.5); // Scale the model for better visibility
+    });
 
-        // Add a secondary directional light for more depth
-        const secondaryLight = new THREE.DirectionalLight(0xffbbaa, 0.4); // Soft orange secondary light for warmth
-        secondaryLight.position.set(-10, 5, 10);
-        scene.add(secondaryLight);
+    // Add OrbitControls for camera interaction
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    
+    // Set camera position
+    camera.position.z = 10;
+    camera.position.y = 2;
 
-        // Load MTL file (material for the OBJ model)
-        const mtlLoader = new THREE.MTLLoader();
-        mtlLoader.load('/assets/models/tank.obj', function (materials) {
-            materials.preload();
+    // Animation loop
+    const animate = function () {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    };
 
-            // Load OBJ model with the materials
-            const objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials(materials); // Apply the materials to the object
-            objLoader.load('/assets/models/tank.obj', function (object) {
-                scene.add(object);
-                object.position.set(0, -1, 0); // Adjust the model's position
-                object.scale.set(1.5, 1.5, 1.5); // Scale the model for better visibility
-            });
-        });
+    animate();
 
-        // Add OrbitControls for camera interaction
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        
-        // Set camera position
-        camera.position.z = 10;
-        camera.position.y = 2;
-
-        // Animation loop
-        const animate = function () {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        };
-
-        animate();
-
-        // Adjust renderer size on window resize
-        window.addEventListener('resize', () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        });
-    </script>
-
+    // Adjust renderer size on window resize
+    window.addEventListener('resize', () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    });
+</script>

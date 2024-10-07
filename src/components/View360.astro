@@ -1,7 +1,12 @@
-<section class="py-10 bg-[url('/assets/images/homepage-bg.jpg')] bg-no-repeat bg-cover relative">
+<section
+  class="py-10 bg-[url('/assets/images/home-bg.jpeg')] bg-no-repeat bg-cover relative"
+>
   <div class="absolute inset-0 backdrop-blur-sm"></div>
-  <div class="relative flex align-middle justify-center p-2 bg-black rounded-lg max-w-2xl mx-auto">
-    <div id="container" class="md:w-[700px] w-full md:h-[400px] h-[200px]"></div>
+  <div
+    class="relative flex align-middle justify-center p-2 bg-black rounded-lg max-w-2xl mx-auto"
+  >
+    <div id="container" class="md:w-[700px] w-full md:h-[400px] h-[200px]">
+    </div>
   </div>
 </section>
 
@@ -9,45 +14,52 @@
 <script is:inline src="//cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', function() {
-    var panorama1, panorama2, viewer, container, infospot, infospot2, infospot3;
-    container = document.querySelector('#container');
-    panorama1 = new PANOLENS.ImagePanorama('/assets/images360/image-1.jpg');
-    panorama2 = new PANOLENS.ImagePanorama('/assets/images360/image-2.jpg');
+  document.addEventListener("DOMContentLoaded", function () {
+    var viewer, container;
+    container = document.querySelector("#container");
 
-// infospot2.position.set(jitna positive utna right, jitna positive utna upar , jitna positive utna chota icon);
+    // Array to hold panorama objects
+    var panoramas = [
+      new PANOLENS.ImagePanorama("/assets/images360/image-1.jpg"),
+      new PANOLENS.ImagePanorama("/assets/images360/image-2.jpg"),
+      // Add more panoramas as needed here
+      new PANOLENS.ImagePanorama("/assets/images360/garden-360.jpg") // example additional panorama
+    ];
 
-    // Infospot for first panorama
-    infospot = new PANOLENS.Infospot();
-    infospot.position.set(1000, 100, -2000);
-    infospot.addHoverText('Navigate to next panorama');
-    infospot.addEventListener('click', function() {
-      alert('Navigating to next panorama');
-      viewer.setPanorama(panorama2);  // On click, navigate to the second panorama
-    });
+    // Create a function to generate infospots and link panoramas
+    function createInfospots() {
+      panoramas.forEach((panorama, index) => {
+        const nextPanorama = panoramas[(index + 1) % panoramas.length]; // link to the next panorama or loop back
 
-    // Infospot2 for first panorama
-    infospot2 = new PANOLENS.Infospot();
-    infospot2.position.set(-1500, 100, 2000);
-    infospot2.addHoverText('This is Test');
+        // Create a new infospot for each panorama
+        var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info); // Infospot with an icon
+        infospot.position.set(1000, 100, -2000); // Set position for the infospot
+        infospot.addHoverText(`Navigate to panorama ${index + 2}`);
+        
+        // On click, navigate to the next panorama
+        infospot.addEventListener("click", function () {
+          viewer.setPanorama(nextPanorama); // Navigate to the next panorama
+        });
 
-    // Add infospots to first panorama
-    panorama1.add(infospot, infospot2);
-
-    // Infospot3 for second panorama
-    infospot3 = new PANOLENS.Infospot();
-    infospot3.position.set(500, 100, -1000);
-    infospot3.addHoverText('This is in the second panorama');
-
-    // Add infospot3 to second panorama
-    panorama2.add(infospot3);
+        // Add infospot to the current panorama
+        panorama.add(infospot);
+      });
+    }
 
     // Viewer setup
     viewer = new PANOLENS.Viewer({
-      container: container
+      container: container,
     });
 
-    // Add first panorama to viewer initially
-    viewer.add(panorama1,panorama2);
+    // Add all panoramas to the viewer
+    panoramas.forEach((panorama) => {
+      viewer.add(panorama);
+    });
+
+    // Create infospots for navigation
+    createInfospots();
+
+    // Start with the first panorama
+    viewer.setPanorama(panoramas[0]);
   });
 </script>

@@ -1,0 +1,95 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Villa</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden; /* Ensure the 3D model takes the full page */
+      }
+      canvas {
+        display: block;
+      }
+      h1 {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: black; /* Set the text color to black for better visibility */
+        z-index: 10;
+        font-family: Arial, sans-serif;
+        font-size: 2rem;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Optional for readability */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Villa</h1>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script is:inline>
+      // Initialize scene, camera, and renderer
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother edges
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0xffffff, 1); // Set the background color to white
+      document.body.appendChild(renderer.domElement);
+
+      // Add soft ambient light
+      const ambientLight = new THREE.AmbientLight(0xffccaa, 0.6);
+      scene.add(ambientLight);
+
+      // Add a directional light for strong highlights and shadows
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(10, 20, 15).normalize();
+      directionalLight.castShadow = true;
+      scene.add(directionalLight);
+
+      // Add a secondary directional light for more depth
+      const secondaryLight = new THREE.DirectionalLight(0xffbbaa, 0.4);
+      secondaryLight.position.set(-10, 5, 10);
+      scene.add(secondaryLight);
+
+      // Load GLTF model
+      const gltfLoader = new THREE.GLTFLoader();
+      gltfLoader.load('/assets/models/villa.gltf', function (gltf) {
+        const model = gltf.scene;
+        scene.add(model);
+        model.position.set(0, -1, 0); // Adjust the model's position
+        model.scale.set(1.5, 1.5, 1.5); // Scale the model for better visibility
+      });
+
+      // Add OrbitControls for camera interaction
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      
+      // Set camera position
+      camera.position.z = 10;
+      camera.position.y = 2;
+
+      // Animation loop
+      const animate = function () {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      // Adjust renderer size on window resize
+      window.addEventListener('resize', () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      });
+    </script>
+  </body>
+</html>
