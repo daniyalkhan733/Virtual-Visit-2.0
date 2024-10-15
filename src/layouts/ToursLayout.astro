@@ -1,0 +1,45 @@
+---
+import MainLayout from "./MainLayout.astro"
+const { frontmatter } = Astro.props;
+---
+<MainLayout>
+
+<style>
+    /* body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    } */
+
+    .tour-container {
+      width: 90%;
+      margin: 0 auto;   
+      /* max-width: 1200px; */
+      height: 80vh;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+  <body>
+    <div class="py-10">
+    <div class="tour-container">
+        <iframe 
+          src={frontmatter.TourLink} 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </body>
+  </MainLayout>
