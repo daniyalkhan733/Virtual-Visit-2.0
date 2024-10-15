@@ -1,0 +1,37 @@
+---
+import MainLayout from "./MainLayout.astro";
+import SingleModel from "../components/SingleModel.astro";
+const { frontmatter } = Astro.props;
+---
+<MainLayout>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+      h1 {  
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: black;
+        z-index: 10;
+        font-family: Arial, sans-serif;
+        font-size: 2rem;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <SingleModel ModelLink={frontmatter.Model}  Name={frontmatter.title}/>
+  </body>
+</html>
+</MainLayout>

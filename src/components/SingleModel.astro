@@ -1,0 +1,68 @@
+---
+const {Name, ModelLink } = Astro.props;
+---
+
+<style>
+  body { margin: 0; }
+  canvas { display: block; }
+</style>
+<h1 class="text-[100px] text-center ">{Name}</h1>
+
+<div id="model-container" class=""></div>
+
+<script define:vars={{ ModelLink }}>
+  // Initialize scene, camera, and renderer
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x1f1f1f, 1);
+  document.getElementById('model-container').appendChild(renderer.domElement);
+
+  // Add lights
+  const ambientLight = new THREE.AmbientLight(0xffccaa, 0.6);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(10, 20, 15).normalize();
+  directionalLight.castShadow = true;
+  scene.add(directionalLight);
+
+  const secondaryLight = new THREE.DirectionalLight(0xffbbaa, 0.4);
+  secondaryLight.position.set(-10, 5, 10);
+  scene.add(secondaryLight);
+
+  // Load GLTF model
+  const gltfLoader = new THREE.GLTFLoader();
+  gltfLoader.load(ModelLink, function (gltf) {
+    const model = gltf.scene;
+    scene.add(model);
+    model.position.set(0, -1, 0);
+    model.scale.set(1.5, 1.5, 1.5);
+  });
+
+  // Add OrbitControls
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  // Set camera position
+  camera.position.z = 10;
+  camera.position.y = 2;
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Adjust renderer size on window resize
+  window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  });
+</script>
