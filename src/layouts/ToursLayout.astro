@@ -41,5 +41,76 @@ const { frontmatter } = Astro.props;
         </iframe>
       </div>
     </div>
+    <hr class="border-2 border-black max-w-6xl mx-auto rounded-xl">
+
+    <section class="mb-8 max-w-5xl mx-auto pt-5 px-2">
+      <h2 class="text-2xl font-bold mb-4">Description</h2>
+      <p class="text-lg leading-relaxed">
+       {frontmatter.description}
+      </p>
+      
+    </section>
+    <hr class="border-2 border-black max-w-6xl mx-auto rounded-xl">
+    <!-- Property Details Section -->
+    <section class=" p-2 rounded-lg max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">Property Details</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Listing Status:</span>
+            <span class="font-bold">Active</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Full Baths:</span>
+            <span>2</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Source ID:</span>
+            <span>OC24211739</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Parking Spaces:</span>
+            <span>2</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Lot Size:</span>
+            <span>1100.0 sqft</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-semibold">County:</span>
+            <span>Orange</span>
+          </div>
+        </div>
+  
+        <!-- Right Column -->
+        <div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Bedrooms:</span>
+            <span>2</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Total Baths:</span>
+            <span>2</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Source ID:</span>
+            <span>13070433835046545732</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Living Area:</span>
+            <span>1037 sqft</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Built:</span>
+            <span>2006</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-semibold">Neighborhood:</span>
+            <span>Avenue One (AVE1)</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </body>
   </MainLayout>
