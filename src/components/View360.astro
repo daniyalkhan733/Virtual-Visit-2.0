@@ -21,8 +21,8 @@
     // Array to hold panorama objects
     var panoramas = [
       new PANOLENS.ImagePanorama("/assets/images360/workshop-rizvi.jpg"),
-      new PANOLENS.ImagePanorama("/assets/images360/image-2.jpg"),
-      new PANOLENS.ImagePanorama("/assets/images360/garden-360.jpg") // example additional panorama
+      new PANOLENS.ImagePanorama("/assets/images360/seminar-floor.jpg"),
+      new PANOLENS.ImagePanorama("/assets/images360/seminar-floor.jpg") // example additional panorama
     ];
 
     // Create a function to generate infospots and link panoramas
@@ -33,7 +33,7 @@
         // Create a new infospot for each panorama
         var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info); // Infospot with an icon
         infospot.position.set(1000, 100, -2000); // Set position for the infospot
-        infospot.addHoverText(`Navigate to Auditorium`);
+        infospot.addHoverText(`Navigate to Seminar Hall Floor`);
         
         // On click, navigate to the next panorama
         infospot.addEventListener("click", function () {
