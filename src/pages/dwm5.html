@@ -153,6 +153,32 @@ Y_pred = classifier.predict(X_test)
 from sklearn.metrics import accuracy_score
 print("Accuracy:", accuracy_score(Y_test, Y_pred))
     </code></pre>
+    <pre><code class="language-python">
+from graphviz import Digraph
+
+def visualize_tree(node, graph=None):
+    if graph is None:
+        graph = Digraph()
+        
+    if node.value is not None:
+        graph.node(str(id(node)), label=str(node.value), shape='box', color='lightblue')
+    else:
+        graph.node(str(id(node)), label=f'X_{node.feature_index} <= {node.threshold}\nGain: {node.info_gain:.3f}')
+        
+        graph.edge(str(id(node)), str(id(node.left)), label='True')
+        visualize_tree(node.left, graph)
+        
+        graph.edge(str(id(node)), str(id(node.right)), label='False')
+        visualize_tree(node.right, graph)
+    
+    return graph
+
+# After training the model
+graph = visualize_tree(classifier.root)
+graph.render("decision_tree", format='png', cleanup=True)  # Save the tree as a PNG file
+graph.view()  # Open the PNG file
+</code></pre>
+
 <a href="https://www.kaggle.com/datasets/saurabh00007/iriscsv">https://www.kaggle.com/datasets/saurabh00007/iriscsv</a>
 </body>
 </html>
