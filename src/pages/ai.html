@@ -494,9 +494,94 @@ ancestor(X, sophia).
 aunt_or_uncle(linda, lisa).
                 </code></pre>
                                    <h1>Exp 08 (Implementation of Naive Bayes
-                                    Classifier)</h1>
+                                    Classifier) (GDB Compiler)</h1>
         <pre><code class="language-python">
-KARNA BAAKI HAI
+import numpy as np
+
+class AdvancedNaiveBayes:
+    def __init__(self):
+        self.classes = None  # Unique class labels
+        self.mean = {}       # Mean of each feature for each class
+        self.variance = {}   # Variance of each feature for each class
+        self.priors = {}     # Prior probabilities for each class
+
+    def fit(self, X, y):
+        """Train the model by calculating means, variances, and class priors."""
+        self.classes = np.unique(y)  # Identify all unique class labels
+
+        for c in self.classes:
+            X_c = X[y == c]  # Data points of class 'c'
+            self.mean[c] = np.mean(X_c, axis=0)
+            self.variance[c] = np.var(X_c, axis=0) + 1e-6  # Avoid division by zero
+            self.priors[c] = X_c.shape[0] / X.shape[0]  # P(c)
+
+    def _gaussian_density(self, class_idx, x):
+        """Calculate Gaussian PDF for continuous features."""
+        mean = self.mean[class_idx]
+        var = self.variance[class_idx]
+        numerator = np.exp(-((x - mean) ** 2) / (2 * var))
+        denominator = np.sqrt(2 * np.pi * var)
+        return numerator / denominator
+
+    def predict(self, X):
+        """Predict class labels for a given dataset."""
+        y_pred = [self._predict_single(x) for x in X]
+        return np.array(y_pred)
+
+    def _predict_single(self, x):
+        """Calculate the posterior probability for each class and return the class with the highest probability."""
+        posteriors = []
+
+        for c in self.classes:
+            # Calculate prior log(P(c))
+            prior = np.log(self.priors[c])
+            # Calculate log(P(x|c)) for all features and sum them
+            conditional = np.sum(np.log(self._gaussian_density(c, x)))
+            # Combine prior and conditional probabilities
+            posterior = prior + conditional
+            posteriors.append(posterior)
+
+        # Return class with the highest posterior
+        return self.classes[np.argmax(posteriors)]
+
+    def accuracy(self, X, y):
+        """Evaluate the model's accuracy on a given test dataset."""
+        y_pred = self.predict(X)
+        return np.mean(y_pred == y)
+
+# Example usage
+if __name__ == "__main__":
+    # Modified dataset: Introduced noise and overlap between classes
+    X = np.array([
+        [1.0, 2.1, 1.1],  # Class 0
+        [2.0, 1.9, 1.2],  # Class 0
+        [1.6, 2.0, 0.9],  # Class 0 (Added slight overlap)
+        [3.1, 3.0, 2.9],  # Class 1
+        [3.0, 3.2, 3.0],  # Class 1
+        [2.7, 2.8, 2.8]   # Class 1 (Slight shift in feature values)
+    ])
+    y = np.array([0, 0, 0, 1, 1, 1])  # Labels
+
+    # Train the Naive Bayes Classifier
+    model = AdvancedNaiveBayes()
+    model.fit(X, y)
+
+    # Test data: Deliberately made harder to classify correctly
+    X_test = np.array([
+        [1.5, 2.0, 1.0],  # Close to class 0, but may confuse with class 1
+        [3.0, 3.1, 5.7],  # Close to class 1
+        [2.0, 2.5, 1.5]   # Ambiguous, could fall into either class
+    ])
+    y_test = np.array([0, 1, 0])  # True labels
+
+    # Predict the class labels
+    predictions = model.predict(X_test)
+    print(f"Predictions: {predictions}")
+
+    # Evaluate model performance on the test data
+    accuracy = model.accuracy(X_test, y_test)
+    print(f"Test Accuracy: {accuracy * 100:.2f}%")
+
                 </code></pre>
                 <h1>Exp 09 (Implement adversarial search using minmax algorithm in Game Theory.)</h1>
 <pre><code class="language-python">
