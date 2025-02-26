@@ -1,64 +1,401 @@
-<section
-  class="py-10 bg-[url('/assets/images/home-bg-2.jpg')] bg-no-repeat bg-cover relative"
->
-  <div class="absolute inset-0 backdrop-blur-sm"></div>
-  <div
-    class="relative flex align-middle justify-center p-2 bg-black rounded-lg max-w-2xl mx-auto"
-  >
-    <div id="container" class="md:w-[700px] w-full md:h-[400px] h-[200px]">
+
+  
+  <!-- Tailwind CSS -->
+  <script is:inline  src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Three.js and Panolens -->
+  <script is:inline  src="//cdnjs.cloudflare.com/ajax/libs/three.js/105/three.js"></script>
+  <script is:inline  src="//cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script is:inline >
+    // Tailwind config
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'scroll': 'scroll 25s linear infinite',
+          },
+          keyframes: {
+            scroll: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(calc(-250px * 7))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Custom scrollbar for carousels */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #2d3748;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #4299e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #3182ce;
+    }
+    
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    
+    /* Carousel styling */
+    .carousel-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+  </style>
+<body class="bg-gray-100">
+  <!-- Main content area - this would integrate into your existing page -->
+  <main>
+    <!-- Tour Component Start -->
+    <div class="tour-component">
+      <!-- Main Panorama Section - More compact with smaller height -->
+      <section class="relative py-4 bg-[url('/assets/images/home-bg-2.jpg')] bg-no-repeat bg-cover">
+        <div class="absolute inset-0 backdrop-blur-sm bg-black/50"></div>
+        <div class="relative flex items-center justify-center p-2 sm:p-4 bg-black/70 rounded-lg sm:rounded-xl shadow-xl max-w-4xl mx-auto">
+          <!-- Tour information overlay - Repositioned and made smaller -->
+          <div class="absolute top-2 left-2 z-10 bg-black/70 backdrop-blur-sm rounded text-white px-3 py-2 text-sm flex items-center space-x-2">
+            <i class="fas fa-map-marker-alt text-blue-400"></i>
+            <div>
+              <h3 class="font-semibold" id="current-location">Workshop Space</h3>
+              <p class="text-xs text-gray-300" id="location-description">Engineering workshop view</p>
+            </div>
+          </div>
+          
+          <!-- Control buttons - Repositioned and compacted -->
+          <div class="absolute top-2 right-2 z-10 flex space-x-1">
+            <button id="autorotate-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Toggle Rotation">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button id="fullscreen-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Fullscreen">
+              <i class="fas fa-expand"></i>
+            </button>
+            <button id="help-button" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Help">
+              <i class="fas fa-question"></i>
+            </button>
+          </div>
+          
+          <!-- Panorama container - Smaller height on desktop -->
+          <div id="container" class="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] rounded overflow-hidden"></div>
+        </div>
+      </section>
+
+      <!-- Tour Carousel Navigation - Compact carousel instead of large thumbnails -->
+      <section class="bg-gray-800 py-3">
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-white text-sm font-medium">Tour Locations</h3>
+            <div class="flex space-x-2">
+              <button id="prev-carousel" class="bg-gray-700 hover:bg-vvlight text-white p-1 rounded transition-colors">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button id="next-carousel" class="bg-gray-700 hover:bg-vvlight text-white p-1 rounded transition-colors">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Carousel for location thumbnails -->
+          <div class="carousel-container relative">
+            <div id="thumbnails-carousel" class="flex space-x-2 overflow-x-auto py-2 custom-scrollbar">
+              <!-- Each carousel item is much smaller -->
+              <button id="view-1" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-vvlight focus:outline-none">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/assets/images360/workshop-rizvi.jpg" alt="Workshop Space" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-gradient-to-r from-vvlight to-vvdark rounded-full p-1">
+                      <i class="fas fa-eye text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Workshop Space</h3>
+                </div>
+              </button>
+              
+              <button id="view-2" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/assets/images360/seminar-floor.jpg" alt="Seminar Floor" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-gradient-to-r from-vvlight to-vvdark rounded-full p-1">
+                      <i class="fas fa-eye text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Seminar Floor</h3>
+                </div>
+              </button>
+              
+              <!-- Example of additional thumbnails for future expansion -->
+              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/api/placeholder/400/320" alt="Lobby" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-vvmedium rounded-full p-1">
+                      <i class="fas fa-lock text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Lobby (Coming Soon)</h3>
+                </div>
+              </button>
+              
+              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/api/placeholder/400/320" alt="Study Area" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-vvmedium rounded-full p-1">
+                      <i class="fas fa-lock text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Study Area (Coming Soon)</h3>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Available Tours Grid - Compact and optimized -->
+   
     </div>
-  </div>
-</section>
+    <!-- Tour Component End -->
+  </main>
 
-<script is:inline src="//cdnjs.cloudflare.com/ajax/libs/three.js/105/three.js"></script>
-<script is:inline src="//cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
-
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", function () {
-    var viewer, container;
-    container = document.querySelector("#container");
-
-    // Array to hold panorama objects
-    var panoramas = [
-      new PANOLENS.ImagePanorama("/assets/images360/workshop-rizvi.jpg"),
-      new PANOLENS.ImagePanorama("/assets/images360/seminar-floor.jpg"),
-      new PANOLENS.ImagePanorama("/assets/images360/seminar-floor.jpg") // example additional panorama
-    ];
-
-    // Create a function to generate infospots and link panoramas
-    function createInfospots() {
-      panoramas.forEach((panorama, index) => {
-        const nextPanorama = panoramas[(index + 1) % panoramas.length]; // link to the next panorama or loop back
-
-        // Create a new infospot for each panorama
-        var infospot = new PANOLENS.Infospot(300, PANOLENS.DataImage.Info); // Infospot with an icon
-        infospot.position.set(1000, 100, -2000); // Set position for the infospot
-        infospot.addHoverText(`Navigate to Seminar Hall Floor`);
-        
-        // On click, navigate to the next panorama
-        infospot.addEventListener("click", function () {
-          viewer.setPanorama(nextPanorama); // Navigate to the next panorama
-        });
-
-        // Add infospot to the current panorama
-        panorama.add(infospot);
+  <!-- Main JavaScript for Tour Component - Enhanced with carousel functionality -->
+  <script is:inline >
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize the Tour Component
+      initTourComponent();
+      
+      // Carousel Navigation
+      setupCarousels();
+      
+      // Fullscreen toggle functionality
+      document.getElementById('fullscreen-toggle').addEventListener('click', function() {
+        const container = document.getElementById('container');
+        if (!document.fullscreenElement) {
+          if (container.requestFullscreen) {
+            container.requestFullscreen();
+          } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+          } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
+      });
+    });
+    
+    function setupCarousels() {
+      // Thumbnails carousel navigation
+      const thumbnailsCarousel = document.getElementById('thumbnails-carousel');
+      const prevCarouselBtn = document.getElementById('prev-carousel');
+      const nextCarouselBtn = document.getElementById('next-carousel');
+      
+      prevCarouselBtn.addEventListener('click', () => {
+        thumbnailsCarousel.scrollBy({ left: -200, behavior: 'smooth' });
+      });
+      
+      nextCarouselBtn.addEventListener('click', () => {
+        thumbnailsCarousel.scrollBy({ left: 200, behavior: 'smooth' });
+      });
+      
+      // Tours carousel navigation
+      const toursCarousel = document.getElementById('tours-carousel');
+      const prevToursBtn = document.getElementById('prev-tours');
+      const nextToursBtn = document.getElementById('next-tours');
+      
+      prevToursBtn.addEventListener('click', () => {
+        toursCarousel.scrollBy({ left: -270, behavior: 'smooth' });
+      });
+      
+      nextToursBtn.addEventListener('click', () => {
+        toursCarousel.scrollBy({ left: 270, behavior: 'smooth' });
       });
     }
-
-    // Viewer setup
-    viewer = new PANOLENS.Viewer({
-      container: container,
-    });
-
-    // Add all panoramas to the viewer
-    panoramas.forEach((panorama) => {
-      viewer.add(panorama);
-    });
-
-    // Create infospots for navigation
-    createInfospots();
-
-    // Start with the first panorama
-    viewer.setPanorama(panoramas[0]);
-  });
-</script>
+    
+    function initTourComponent() {
+      var viewer, container;
+      container = document.querySelector("#container");
+      
+      // Configuration options for the panorama
+      const tourConfig = {
+        autoRotate: true,
+        autoRotateSpeed: 0.5,
+        controlBar: true,
+        cameraFov: 75
+      };
+      
+      // Tour data - Future-proof structure with ability to add more locations
+      const tourData = [
+        {
+          id: "workshop",
+          name: "Workshop Space",
+          description: "Engineering workshop with equipment",
+          panoramaPath: "/assets/images360/workshop-rizvi.jpg",
+          thumbnailPath: "/api/placeholder/400/320"
+        },
+        {
+          id: "seminar",
+          name: "Seminar Floor",
+          description: "Conference area with presentation space",
+          panoramaPath: "/assets/images360/seminar-floor.jpg",
+          thumbnailPath: "/api/placeholder/400/320"
+        }
+        // Add more locations here as they become available
+      ];
+      
+      // Create panorama objects
+      const panoramas = tourData.map(location => 
+        new PANOLENS.ImagePanorama(location.panoramaPath)
+      );
+      
+      // Viewer Setup
+      viewer = new PANOLENS.Viewer({
+        container: container,
+        autoRotate: tourConfig.autoRotate,
+        autoRotateSpeed: tourConfig.autoRotateSpeed,
+        controlBar: tourConfig.controlBar,
+        cameraFov: tourConfig.cameraFov
+      });
+      
+      // Function to create navigation infospots with arrows
+      function createInfospots() {
+        panoramas.forEach((panorama, index) => {
+          const nextPanorama = panoramas[(index + 1) % panoramas.length];
+          const nextLocation = tourData[(index + 1) % tourData.length];
+          
+          // Navigation Arrow Infospot at different positions
+          var positions = [
+            { x: -1500, y: 200, z: 1000 },
+            { x: 2000, y: -100, z: -1500 },
+            { x: -800, y: 300, z: 800 }
+          ];
+          
+          positions.forEach(pos => {
+            var arrowInfospot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Arrow);
+            arrowInfospot.position.set(pos.x, pos.y, pos.z);
+            arrowInfospot.addHoverText(`Go to ${nextLocation.name}`);
+            
+            // Click to navigate to next panorama
+            arrowInfospot.addEventListener("click", function () {
+              navigateToPanorama((index + 1) % panoramas.length);
+            });
+            
+            panorama.add(arrowInfospot);
+          });
+        });
+      }
+      
+      // Function to navigate to a specific panorama
+      function navigateToPanorama(index) {
+        viewer.setPanorama(panoramas[index]);
+        updateLocationInfo(index);
+        updateActiveThumbnail(index);
+        
+        // Ensure the active thumbnail is visible in the carousel
+        const thumbElement = document.getElementById(`view-${index + 1}`);
+        if (thumbElement) {
+          thumbElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }
+      
+      // Function to update location information
+      function updateLocationInfo(index) {
+        document.getElementById("current-location").textContent = tourData[index].name;
+        document.getElementById("location-description").textContent = tourData[index].description;
+      }
+      
+      // Function to update active thumbnail
+      function updateActiveThumbnail(activeIndex) {
+        document.querySelectorAll(".tour-thumb").forEach((thumb, i) => {
+          if (i === activeIndex) {
+            thumb.classList.add("bg-white/20", "border-blue-500");
+            thumb.classList.remove("bg-white/10", "border-transparent");
+          } else {
+            thumb.classList.remove("bg-white/20", "border-blue-500");
+            thumb.classList.add("bg-white/10", "border-transparent");
+          }
+        });
+      }
+      
+      // Add all panoramas to viewer
+      panoramas.forEach((panorama) => {
+        viewer.add(panorama);
+      });
+      
+      // Create navigation infospots
+      createInfospots();
+      
+      // Start with the first panorama
+      navigateToPanorama(0);
+      
+      // Add event listeners to thumbnail buttons
+      document.getElementById("view-1").addEventListener("click", function() {
+        navigateToPanorama(0);
+      });
+      
+      document.getElementById("view-2").addEventListener("click", function() {
+        navigateToPanorama(1);
+      });
+      
+      // Toggle autorotation
+      document.getElementById("autorotate-toggle").addEventListener("click", function() {
+        if (viewer.OrbitControls.autoRotate) {
+          viewer.OrbitControls.autoRotate = false;
+          this.innerHTML = '<i class="fas fa-play"></i>';
+          this.title = "Start Rotation";
+        } else {
+          viewer.OrbitControls.autoRotate = true;
+          this.innerHTML = '<i class="fas fa-pause"></i>';
+          this.title = "Pause Rotation";
+        }
+      });
+      
+      // Help button functionality
+      document.getElementById("help-button").addEventListener("click", function() {
+        alert("Navigation Tips:\n\n• Click and drag to look around\n• Click on arrows to move between locations\n• Use the carousel below to jump to specific viewpoints\n• Toggle auto-rotation with the ↻ button\n• Enter fullscreen with the ⤢ button");
+      });
+      
+      // Make the viewer component accessible globally for potential external interactions
+      window.panoramaViewer = {
+        viewer: viewer,
+        panoramas: panoramas,
+        navigateTo: navigateToPanorama,
+        tourData: tourData
+      };
+      
+      return viewer;
+    }
+  </script>
+</body>

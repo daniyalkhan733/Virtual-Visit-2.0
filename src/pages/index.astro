@@ -1,63 +1,143 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import View360 from "../components/View360.astro";
+import TeamSection from "../components/TeamSection.astro";
 ---
 <MainLayout>
 	
-	<View360/>
-	<section class="py-24 relative xl:mr-0 lg:mr-5 mr-0 " >
-		<div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-			<div class="w-full justify-start items-center xl:gap-12 gap-10 grid lg:grid-cols-2 grid-cols-1">
-				<div class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
-					<div class="w-full flex-col justify-center items-start gap-8 flex">
-						<div class="flex-col justify-start lg:items-start items-center gap-4 flex">
-							<h6 class="text-gray-400 text-base font-normal leading-relaxed">Explore</h6>
-							<div class="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
-								<h2 class="text-indigo-700 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
-									Discover Virtual Worlds</h2>
-								<p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
-									Experience immersive tours with just a click. Navigate breathtaking landscapes, explore 3D environments, and step into the future of virtual exploration.
-								</p>
-							</div>
-						</div>
-						<div class="w-full flex-col justify-center items-start gap-6 flex">
-							<div class="w-full justify-start items-center gap-8 grid md:grid-cols-2 grid-cols-1">
-								<div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-indigo-500 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-									<h4 class="text-gray-900 text-2xl font-bold font-manrope leading-9">1+ Destinations</h4>
-									<p class="text-gray-500 text-base font-normal leading-relaxed">Explore iconic sites from your screen.</p>
-								</div>
-								<div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-indigo-500 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-									<h4 class="text-gray-900 text-2xl font-bold font-manrope leading-9">5+ Virtual Tours</h4>
-									<p class="text-gray-500 text-base font-normal leading-relaxed">Bringing immersive experiences to life.</p>
-								</div>
-							</div>
-							<div class="w-full h-full justify-start items-center gap-8 grid md:grid-cols-2 grid-cols-1">
-								<div class="w-full p-3.5 rounded-xl border border-gray-200 hover:border-indigo-500 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-									<h4 class="text-gray-900 text-2xl font-bold font-manrope leading-9">3D Models</h4>
-									<p class="text-gray-500 text-base font-normal leading-relaxed">Interact with models in real-time.</p>
-								</div>
-								<div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-indigo-500 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-									<h4 class="text-gray-900 text-2xl font-bold font-manrope leading-9">Virtual Reality Ready</h4>
-									<p class="text-gray-500 text-base font-normal leading-relaxed">Optimized for VR devices.</p>
-								</div>
-							</div>
-						</div>
-						<button class="sm:w-fit w-full group px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] transition-all duration-700 ease-in-out justify-center items-center flex">
-							<span class="px-1.5 text-indigo-600 text-sm font-medium leading-6 group-hover:-translate-x-0.5 transition-all duration-700 ease-in-out">Explore Now</span>
-							<svg class="group-hover:translate-x-0.5 transition-all duration-700 ease-in-out" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-								<path d="M6.75265 4.49658L11.2528 8.99677L6.75 13.4996" stroke="#4F46E5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-							</svg>
-						</button>
-					</div>
-				</div>
-				<div class="w-full lg:justify-start justify-center items-start flex">
-					<div class="sm:w-[564px] w-full sm:h-[646px] h-full sm:bg-gray-100 rounded-3xl sm:border border-gray-200 relative">
-						<img class="sm:mt-5 sm:ml-5 w-full h-full rounded-3xl object-cover" src="/assets/images/about-bg.jpg" alt="Virtual Tour Preview"/>
-					</div>
-				</div>
-			</div>
+<View360 />
+<section class="py-8 bg-gray-100">
+	<div class="max-w-6xl mx-auto px-4">
+	  <div class="flex items-center justify-between mb-4">
+		<h2 class="text-xl font-bold text-gray-800">More Virtual Tours</h2>
+		<div class="flex space-x-2">
+		  <button id="prev-tours" class="bg-gray-300 hover:bg-gray-400 text-gray-800 p-1 rounded">
+			<i class="fas fa-chevron-left"></i>
+		  </button>
+		  <button id="next-tours" class="bg-gray-300 hover:bg-gray-400 text-gray-800 p-1 rounded">
+			<i class="fas fa-chevron-right"></i>
+		  </button>
 		</div>
-	</section>
-	
+	  </div>
+	  
+	  <!-- Tour cards carousel -->
+	  <div class="overflow-x-auto custom-scrollbar pb-4">
+		<div id="tours-carousel" class="flex space-x-4 w-max">
+		  <!-- Tour Card 1 - More compact -->
+		  <div class="tour-card flex-shrink-0 w-64 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow group">
+			<div class="relative h-32 overflow-hidden">
+			  <img src="/api/placeholder/400/320" alt="University Campus Tour" class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500">
+			  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+				<div class="p-2">
+				  <span class="px-2 py-0.5 bg-blue-600 text-white text-xs font-semibold rounded-full">Educational</span>
+				  <h3 class="text-white text-sm font-bold mt-1">University Campus</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="p-2">
+			  <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+				<span><i class="fas fa-map-marker-alt mr-1"></i> 5 Views</span>
+				<span><i class="fas fa-clock mr-1"></i> 15 min</span>
+			  </div>
+			  <a href="#" class="block text-center bg-gray-800 hover:bg-blue-600 text-white text-sm py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+				Start Tour
+			  </a>
+			</div>
+		  </div>
+		  
+		  <!-- Tour Card 2 -->
+		  <div class="tour-card flex-shrink-0 w-64 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow group">
+			<div class="relative h-32 overflow-hidden">
+			  <img src="/api/placeholder/400/320" alt="Modern Art Gallery" class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500">
+			  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+				<div class="p-2">
+				  <span class="px-2 py-0.5 bg-green-600 text-white text-xs font-semibold rounded-full">Cultural</span>
+				  <h3 class="text-white text-sm font-bold mt-1">Art Gallery</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="p-2">
+			  <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+				<span><i class="fas fa-map-marker-alt mr-1"></i> 8 Views</span>
+				<span><i class="fas fa-clock mr-1"></i> 25 min</span>
+			  </div>
+			  <a href="#" class="block text-center bg-gray-800 hover:bg-blue-600 text-white text-sm py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+				Start Tour
+			  </a>
+			</div>
+		  </div>
+		  
+		  <!-- Tour Card 3 -->
+		  <div class="tour-card flex-shrink-0 w-64 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow group">
+			<div class="relative h-32 overflow-hidden">
+			  <img src="/api/placeholder/400/320" alt="Research Laboratory" class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500">
+			  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+				<div class="p-2">
+				  <span class="px-2 py-0.5 bg-purple-600 text-white text-xs font-semibold rounded-full">Scientific</span>
+				  <h3 class="text-white text-sm font-bold mt-1">Research Lab</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="p-2">
+			  <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+				<span><i class="fas fa-map-marker-alt mr-1"></i> 6 Views</span>
+				<span><i class="fas fa-clock mr-1"></i> 20 min</span>
+			  </div>
+			  <a href="#" class="block text-center bg-gray-800 hover:bg-blue-600 text-white text-sm py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+				Start Tour
+			  </a>
+			</div>
+		  </div>
+		  
+		  <!-- Tour Card 4 -->
+		  <div class="tour-card flex-shrink-0 w-64 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow group">
+			<div class="relative h-32 overflow-hidden">
+			  <img src="/api/placeholder/400/320" alt="Conference Center" class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500">
+			  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+				<div class="p-2">
+				  <span class="px-2 py-0.5 bg-yellow-600 text-white text-xs font-semibold rounded-full">Business</span>
+				  <h3 class="text-white text-sm font-bold mt-1">Conference Center</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="p-2">
+			  <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+				<span><i class="fas fa-map-marker-alt mr-1"></i> 4 Views</span>
+				<span><i class="fas fa-clock mr-1"></i> 10 min</span>
+			  </div>
+			  <a href="#" class="block text-center bg-gray-800 hover:bg-blue-600 text-white text-sm py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+				Start Tour
+			  </a>
+			</div>
+		  </div>
+		  
+		  <!-- Tour Card 5 -->
+		  <div class="tour-card flex-shrink-0 w-64 bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow group">
+			<div class="relative h-32 overflow-hidden">
+			  <img src="/api/placeholder/400/320" alt="Historic Museum" class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500">
+			  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+				<div class="p-2">
+				  <span class="px-2 py-0.5 bg-red-600 text-white text-xs font-semibold rounded-full">Historical</span>
+				  <h3 class="text-white text-sm font-bold mt-1">Historic Museum</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="p-2">
+			  <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+				<span><i class="fas fa-map-marker-alt mr-1"></i> 12 Views</span>
+				<span><i class="fas fa-clock mr-1"></i> 45 min</span>
+			  </div>
+			  <a href="#" class="block text-center bg-gray-800 hover:bg-blue-600 text-white text-sm py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+				Start Tour
+			  </a>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </section>
+<TeamSection />	
+
+
                                             
 </MainLayout>

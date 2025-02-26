@@ -1,0 +1,145 @@
+
+  <script is:inline >
+  
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const teamCards = document.querySelectorAll('.team-card');
+      const teamDetails = document.querySelectorAll('.team-details');
+      
+      teamCards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+          // Remove active class from all cards
+          teamCards.forEach(c => c.classList.remove('ring-3', 'ring-vvdark', 'scale-105'));
+          // Remove active class from all details
+          teamDetails.forEach(d => d.classList.add('hidden'));
+          
+          // Add active class to clicked card
+          card.classList.add('ring-3', 'ring-vvdark', 'scale-105');
+          // Show details for clicked card
+          teamDetails[index].classList.remove('hidden');
+        });
+      });
+      
+      // Activate first card by default
+      teamCards[0].click();
+    });
+  </script>
+<body class="bg-gray-50">
+  <!-- Team Section -->
+  <section class="py-6 px-4 max-w-6xl mx-auto">
+    <!-- Header with gradient text -->
+    <div class="text-center mb-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-vvlight via-vvmedium to-vvdark inline-block text-transparent bg-clip-text">Meet Our Team</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">The innovative minds behind Virtual Visit, bringing immersive experiences to life.</p>
+    </div>
+    
+    <!-- Main Content - Flex layout -->
+    <div class="flex flex-col lg:flex-row gap-4">
+      <!-- Team Cards - Vertical Column (more compact) -->
+      <div class="lg:w-1/4 flex flex-row lg:flex-col justify-center gap-3 mb-4 lg:mb-0 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+        <!-- Team Member 1 -->
+        <div class="team-card cursor-pointer transform transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-gradient-to-b from-vvlight via-vvmedium to-vvdark p-1 mx-auto">
+            <img src="/assets/images/daniyal.png" alt="Khan Mohammed Daniyal" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="mt-1 text-xs md:text-sm font-semibold text-center">Khan Mohammed Daniyal</h3>
+          <p class="text-center text-vvmedium text-xs">VR Experience Lead</p>
+        </div>
+        
+        <!-- Team Member 2 -->
+        <div class="team-card cursor-pointer transform transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-gradient-to-b from-vvlight via-vvmedium to-vvdark p-1 mx-auto">
+            <img src="/assets/images/juned.jpeg" alt="Khan Mohammed Juned" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="mt-1 text-xs md:text-sm font-semibold text-center">Khan Mohammed Juned</h3>
+          <p class="text-center text-vvmedium text-xs">Technical Director</p>
+        </div>
+        
+        <!-- Team Member 3 -->
+        <div class="team-card cursor-pointer transform transition-all duration-300 hover:scale-105 flex-shrink-0">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-gradient-to-b from-vvlight via-vvmedium to-vvdark p-1 mx-auto">
+            <img src="/assets/images/malikshah.jpeg" alt="Mahimi Malikshah" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="mt-1 text-xs md:text-sm font-semibold text-center">Mahimi Malikshah</h3>
+          <p class="text-center text-vvmedium text-xs">UX/UI Designer</p>
+        </div>
+      </div>
+      
+      <!-- Team Member Details Section - Right side card (now wider) -->
+      <div class="lg:w-3/4 bg-white rounded-xl shadow-lg p-4 md:p-6 relative">
+        <!-- Logo watermark in background -->
+        <div class="absolute opacity-5 w-40 h-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <path d="M100,20 C150,20 180,50 180,100 C180,150 150,180 100,180 C50,180 20,150 20,100 C20,50 50,20 100,20 Z" fill="url(#grad1)" />
+            <circle cx="60" cy="70" r="10" fill="#6A96D7" />
+            <circle cx="90" cy="70" r="10" fill="#6A96D7" />
+            <circle cx="140" cy="70" r="10" fill="#6A96D7" />
+            <circle cx="110" cy="70" r="10" fill="#6A96D7" />
+            <ellipse cx="100" cy="120" rx="30" ry="15" fill="#6A96D7" />
+            <path d="M80,150 C90,160 110,160 120,150" stroke="#6A96D7" fill="none" stroke-width="3" />
+            <path d="M70,120 L100,120 L130,120" stroke="#6A96D7" fill="none" stroke-width="3" />
+            <path d="M90,110 L110,130" stroke="#6A96D7" fill="none" stroke-width="3" />
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#7FD1E0" />
+                <stop offset="50%" stop-color="#6A96D7" />
+                <stop offset="100%" stop-color="#896AD7" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        
+        <!-- Khan Mohammed Daniyal details -->
+        <div class="team-details relative z-10">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center sm:items-start">
+            <img src="/assets/images/daniyal.png" alt="Khan Mohammed Daniyal" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-3 border-vvlight flex-shrink-0">
+            <div>
+              <h3 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-vvlight to-vvdark inline-block text-transparent bg-clip-text text-center sm:text-left">Khan Mohammed Daniyal</h3>
+              <p class="text-vvmedium font-medium mb-2 text-center sm:text-left text-sm">VR Experience Lead</p>
+              <p class="text-gray-700 mb-3 text-sm">With exceptional vision and technical expertise, Daniyal leads our VR development team, creating immersive experiences that redefine virtual interaction and engagement.</p>
+              <div class="flex gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">Virtual Reality</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">3D Design</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">Unity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Khan Mohammed Juned details -->
+        <div class="team-details relative z-10 hidden">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center sm:items-start">
+            <img src="/assets/images/juned.jpeg" alt="Khan Mohammed Juned" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-3 border-vvlight flex-shrink-0">
+            <div>
+              <h3 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-vvlight to-vvdark inline-block text-transparent bg-clip-text text-center sm:text-left">Khan Mohammed Juned</h3>
+              <p class="text-vvmedium font-medium mb-2 text-center sm:text-left text-sm">Technical Director</p>
+              <p class="text-gray-700 mb-3 text-sm">Juned brings extensive expertise in computer vision and 3D rendering to ensure our Virtual Visit experiences operate flawlessly across all platforms and devices.</p>
+              <div class="flex gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">Computer Vision</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">AR/VR</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">C++</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mahimi Malikshah details -->
+        <div class="team-details relative z-10 hidden">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center sm:items-start">
+            <img src="/assets/images/malikshah.jpeg" alt="Mahimi Malikshah" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-3 border-vvlight flex-shrink-0">
+            <div>
+              <h3 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-vvlight to-vvdark inline-block text-transparent bg-clip-text text-center sm:text-left">Mahimi Malikshah</h3>
+              <p class="text-vvmedium font-medium mb-2 text-center sm:text-left text-sm">UX/UI Designer</p>
+              <p class="text-gray-700 mb-3 text-sm">Mahimi masterfully combines human-centered design principles with accessibility expertise to create intuitive interfaces that make virtual experiences engaging for users of all abilities.</p>
+              <div class="flex gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">UI/UX</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">Accessibility</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-vvlight bg-opacity-20 text-vvdark">Figma</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
