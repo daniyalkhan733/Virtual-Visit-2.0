@@ -1,34 +1,261 @@
+---
+// Updated Panorama Component with Carousel
+---
+<!-- Tailwind CSS -->
+<script is:inline src="https://cdn.tailwindcss.com"></script>
 
-  
-  <!-- Tailwind CSS -->
-  <script is:inline  src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Three.js and Panolens -->
-  <script is:inline  src="//cdnjs.cloudflare.com/ajax/libs/three.js/105/three.js"></script>
-  <script is:inline  src="//cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <script is:inline >
-    // Tailwind config
-    tailwind.config = {
-      theme: {
-        extend: {
-          animation: {
-            'scroll': 'scroll 25s linear infinite',
-          },
-          keyframes: {
-            scroll: {
-              '0%': { transform: 'translateX(0)' },
-              '100%': { transform: 'translateX(calc(-250px * 7))' },
-            }
+<!-- Three.js and Panolens -->
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Tailwind Config -->
+<script is:inline>
+  tailwind.config = {
+    theme: {
+      extend: {
+        animation: {
+          'scroll': 'scroll 25s linear infinite',
+        },
+        keyframes: {
+          scroll: {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(calc(-250px * 7))' },
           }
         }
       }
     }
-  </script>
-  
+  }
+</script>
+
+<body class="bg-gray-100">
+  <main>
+    <!-- Integrated MiniMap Component -->
+    <div class="minimap-wrapper">
+      <div id="minimap-container" class="minimap-container">
+        <div class="minimap-inner">
+          <!-- Title only visible when expanded -->
+          <h3 class="map-title">Rizvi College of Engineering</h3>
+          
+          <!-- SVG Map -->
+          <div class="svg-container">
+            <!-- Ground Floor -->
+            <div id="floor-ground" class="floor-map" data-floor="ground">
+              <svg viewBox="0 0 200 120" class="floor-svg">
+                <rect x="10" y="10" width="180" height="100" class="floor-rect" />
+                <text x="100" y="25" class="floor-title">Ground Floor</text>
+                
+                <rect x="70" y="40" width="60" height="30" class="room room-available" data-room-id="workshop" onclick="handleRoomClick('workshop')" />
+                <text x="100" y="58" class="room-label">Workshop</text>
+                
+                <rect x="20" y="40" width="40" height="30" class="room room-unavailable" data-room-id="reception" />
+                <text x="40" y="58" class="room-label">Reception</text>
+                
+                <rect x="140" y="40" width="40" height="30" class="room room-unavailable" data-room-id="cafeteria" />
+                <text x="160" y="58" class="room-label">Cafeteria</text>
+                
+                <rect x="20" y="80" width="80" height="30" class="room room-unavailable" data-room-id="mechanical-lab" />
+                <text x="60" y="98" class="room-label">Mechanical Lab</text>
+              </svg>
+            </div>
+            
+            <!-- First Floor -->
+            <div id="floor-first" class="floor-map" data-floor="first">
+              <svg viewBox="0 0 200 120" class="floor-svg">
+                <rect x="10" y="10" width="180" height="100" class="floor-rect" />
+                <text x="100" y="25" class="floor-title">1st Floor</text>
+                
+                <rect x="20" y="40" width="70" height="30" class="room room-unavailable" data-room-id="computer-lab" />
+                <text x="55" y="58" class="room-label">Computer Lab</text>
+                
+                <rect x="100" y="40" width="70" height="30" class="room room-unavailable" data-room-id="library" />
+                <text x="135" y="58" class="room-label">Library</text>
+                
+                <rect x="20" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-101" />
+                <text x="40" y="98" class="room-label">101</text>
+                
+                <rect x="70" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-102" />
+                <text x="90" y="98" class="room-label">102</text>
+                
+                <rect x="120" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-103" />
+                <text x="140" y="98" class="room-label">103</text>
+              </svg>
+            </div>
+            
+            <!-- Second Floor -->
+            <div id="floor-second" class="floor-map" data-floor="second">
+              <svg viewBox="0 0 200 120" class="floor-svg">
+                <rect x="10" y="10" width="180" height="100" class="floor-rect" />
+                <text x="100" y="25" class="floor-title">2nd Floor</text>
+                
+                <rect x="20" y="40" width="70" height="30" class="room room-unavailable" data-room-id="electronics-lab" />
+                <text x="55" y="58" class="room-label">Electronics Lab</text>
+                
+                <rect x="100" y="40" width="70" height="30" class="room room-unavailable" data-room-id="faculty-room" />
+                <text x="135" y="58" class="room-label">Faculty Room</text>
+                
+                <rect x="20" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-201" />
+                <text x="40" y="98" class="room-label">201</text>
+                
+                <rect x="70" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-202" />
+                <text x="90" y="98" class="room-label">202</text>
+                
+                <rect x="120" y="80" width="40" height="30" class="room room-unavailable" data-room-id="classroom-203" />
+                <text x="140" y="98" class="room-label">203</text>
+              </svg>
+            </div>
+            
+            <!-- Third Floor -->
+            <div id="floor-third" class="floor-map" data-floor="third">
+              <svg viewBox="0 0 200 120" class="floor-svg">
+                <rect x="10" y="10" width="180" height="100" class="floor-rect" />
+                <text x="100" y="25" class="floor-title">3rd Floor</text>
+                
+                <rect x="20" y="40" width="70" height="30" class="room room-available" data-room-id="seminar" onclick="handleRoomClick('seminar')" />
+                <text x="55" y="58" class="room-label">Seminar Hall</text>
+                
+                <rect x="100" y="40" width="70" height="30" class="room room-unavailable" data-room-id="chemistry-lab" />
+                <text x="135" y="58" class="room-label">Chemistry Lab</text>
+                
+                <rect x="20" y="80" width="50" height="30" class="room room-unavailable" data-room-id="hod-office" />
+                <text x="45" y="98" class="room-label">HOD Office</text>
+                
+                <rect x="80" y="80" width="90" height="30" class="room room-unavailable" data-room-id="physics-lab" />
+                <text x="125" y="98" class="room-label">Physics Lab</text>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Floor selector buttons -->
+          <div class="floor-buttons">
+            <button class="floor-btn" data-floor="ground" onclick="changeFloor('ground')">Ground</button>
+            <button class="floor-btn" data-floor="first" onclick="changeFloor('first')">1st</button>
+            <button class="floor-btn" data-floor="second" onclick="changeFloor('second')">2nd</button>
+            <button class="floor-btn" data-floor="third" onclick="changeFloor('third')">3rd</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour Component Start -->
+    <div class="tour-component">
+      <!-- Main Panorama Section -->
+      <section class="relative py-4 bg-[url('/assets/images/home-bg-2.jpg')] bg-no-repeat bg-cover">
+        <div class="absolute inset-0 backdrop-blur-sm bg-black/50"></div>
+        <div class="relative flex items-center justify-center p-2 sm:p-4 bg-black/70 rounded-lg sm:rounded-xl shadow-xl max-w-4xl mx-auto">
+          <!-- Tour information overlay -->
+          <div class="absolute top-2 left-2 z-10 bg-black/70 backdrop-blur-sm rounded text-white px-3 py-2 text-sm flex items-center space-x-2">
+            <i class="fas fa-map-marker-alt text-blue-400"></i>
+            <div>
+              <h3 class="font-semibold" id="current-location">Workshop Space</h3>
+              <p class="text-xs text-gray-300" id="location-description">Engineering workshop view</p>
+            </div>
+          </div>
+          
+          <!-- Control buttons -->
+          <div class="absolute top-2 right-2 z-10 flex space-x-1">
+            <button id="autorotate-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Toggle Rotation">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button id="fullscreen-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Fullscreen">
+              <i class="fas fa-expand"></i>
+            </button>
+            <button id="help-button" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Help">
+              <i class="fas fa-question"></i>
+            </button>
+          </div>
+          
+          <!-- Panorama container -->
+          <div id="container" class="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] rounded overflow-hidden"></div>
+        </div>
+      </section>
+
+      <!-- Tour Carousel Navigation -->
+      <section class="bg-gray-800 py-3">
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-white text-sm font-medium">Tour Locations</h3>
+            <div class="flex space-x-2">
+              <button id="prev-carousel" class="bg-gray-700 hover:bg-blue-600 text-white p-1 rounded transition-colors">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button id="next-carousel" class="bg-gray-700 hover:bg-blue-600 text-white p-1 rounded transition-colors">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Carousel for location thumbnails -->
+          <div class="carousel-container relative">
+            <div id="thumbnails-carousel" class="flex space-x-2 overflow-x-auto py-2 custom-scrollbar">
+              <!-- Workshop thumbnail -->
+              <button id="view-workshop" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-blue-500 focus:outline-none">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/assets/images360/workshop-rizvi.jpg" alt="Workshop Space" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-gradient-to-r from-blue-400 to-blue-600 rounded-full p-1">
+                      <i class="fas fa-eye text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Workshop Space</h3>
+                </div>
+              </button>
+              
+              <!-- Seminar thumbnail -->
+              <button id="view-seminar" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/assets/images360/seminar-floor.jpg" alt="Seminar Floor" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-gradient-to-r from-blue-400 to-blue-600 rounded-full p-1">
+                      <i class="fas fa-eye text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Seminar Floor</h3>
+                </div>
+              </button>
+              
+              <!-- Coming soon thumbnails -->
+              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/api/placeholder/400/320" alt="Lobby" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-blue-500 rounded-full p-1">
+                      <i class="fas fa-lock text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Lobby (Coming Soon)</h3>
+                </div>
+              </button>
+              
+              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
+                <div class="relative h-16 overflow-hidden">
+                  <img src="/api/placeholder/400/320" alt="Study Area" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div class="bg-blue-500 rounded-full p-1">
+                      <i class="fas fa-lock text-white text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 text-white">
+                  <h3 class="font-medium text-xs">Study Area (Coming Soon)</h3>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- Tour Component End -->
+  </main>
+
   <style>
     /* Custom scrollbar for carousels */
     .custom-scrollbar::-webkit-scrollbar {
@@ -61,163 +288,257 @@
       position: relative;
       width: 100%;
     }
+
+    /* MiniMap Styles */
+    .minimap-wrapper {
+      position: relative;
+    }
+    
+    .minimap-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 80px;
+      height: 80px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .minimap-container:hover {
+      width: 240px;
+      height: 220px;
+    }
+    
+    .minimap-inner {
+      width: 100%;
+      height: 100%;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Title */
+    .map-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      height: 0;
+    }
+    
+    .minimap-container:hover .map-title {
+      opacity: 1;
+      height: auto;
+    }
+    
+    /* SVG Container */
+    .svg-container {
+      flex-grow: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .floor-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .floor-map.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .floor-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .floor-rect {
+      fill: #e1ebff;
+      stroke: #4b70c9;
+      stroke-width: 1;
+    }
+    
+    .floor-title {
+      font-size: 10px;
+      text-anchor: middle;
+      font-weight: 500;
+      fill: #1e40af;
+    }
+    
+    .room {
+      stroke: #1e3a8a;
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.2s ease;
+    }
+    
+    .room-available {
+      fill: #3b82f6;
+    }
+    
+    .room-available:hover {
+      fill: #0ea5e9;
+    }
+    
+    .room-unavailable {
+      fill: #94a3b8;
+    }
+    
+    .room-unavailable:hover {
+      fill: #64748b;
+    }
+    
+    .room-label {
+      font-size: 8px;
+      text-anchor: middle;
+      fill: white;
+      pointer-events: none;
+    }
+    
+    /* Floor buttons */
+    .floor-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      height: 0;
+    }
+    
+    .minimap-container:hover .floor-buttons {
+      opacity: 1;
+      height: auto;
+    }
+    
+    .floor-btn {
+      padding: 4px 8px;
+      background-color: #cbd5e1;
+      border: none;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .floor-btn:hover {
+      background-color: #94a3b8;
+    }
+    
+    .floor-btn.active {
+      background-color: #3b82f6;
+      color: white;
+    }
   </style>
-<body class="bg-gray-100">
-  <!-- Main content area - this would integrate into your existing page -->
-  <main>
-    <!-- Tour Component Start -->
-    <div class="tour-component">
-      <!-- Main Panorama Section - More compact with smaller height -->
-      <section class="relative py-4 bg-[url('/assets/images/home-bg-2.jpg')] bg-no-repeat bg-cover">
-        <div class="absolute inset-0 backdrop-blur-sm bg-black/50"></div>
-        <div class="relative flex items-center justify-center p-2 sm:p-4 bg-black/70 rounded-lg sm:rounded-xl shadow-xl max-w-4xl mx-auto">
-          <!-- Tour information overlay - Repositioned and made smaller -->
-          <div class="absolute top-2 left-2 z-10 bg-black/70 backdrop-blur-sm rounded text-white px-3 py-2 text-sm flex items-center space-x-2">
-            <i class="fas fa-map-marker-alt text-blue-400"></i>
-            <div>
-              <h3 class="font-semibold" id="current-location">Workshop Space</h3>
-              <p class="text-xs text-gray-300" id="location-description">Engineering workshop view</p>
-            </div>
-          </div>
-          
-          <!-- Control buttons - Repositioned and compacted -->
-          <div class="absolute top-2 right-2 z-10 flex space-x-1">
-            <button id="autorotate-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Toggle Rotation">
-              <i class="fas fa-sync-alt"></i>
-            </button>
-            <button id="fullscreen-toggle" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Fullscreen">
-              <i class="fas fa-expand"></i>
-            </button>
-            <button id="help-button" class="bg-black/70 backdrop-blur-sm rounded text-white p-2 hover:bg-blue-600/80 transition-colors" title="Help">
-              <i class="fas fa-question"></i>
-            </button>
-          </div>
-          
-          <!-- Panorama container - Smaller height on desktop -->
-          <div id="container" class="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] rounded overflow-hidden"></div>
-        </div>
-      </section>
 
-      <!-- Tour Carousel Navigation - Compact carousel instead of large thumbnails -->
-      <section class="bg-gray-800 py-3">
-        <div class="max-w-4xl mx-auto px-4">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-white text-sm font-medium">Tour Locations</h3>
-            <div class="flex space-x-2">
-              <button id="prev-carousel" class="bg-gray-700 hover:bg-vvlight text-white p-1 rounded transition-colors">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button id="next-carousel" class="bg-gray-700 hover:bg-vvlight text-white p-1 rounded transition-colors">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
-          </div>
-          
-          <!-- Carousel for location thumbnails -->
-          <div class="carousel-container relative">
-            <div id="thumbnails-carousel" class="flex space-x-2 overflow-x-auto py-2 custom-scrollbar">
-              <!-- Each carousel item is much smaller -->
-              <button id="view-1" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-vvlight focus:outline-none">
-                <div class="relative h-16 overflow-hidden">
-                  <img src="/assets/images360/workshop-rizvi.jpg" alt="Workshop Space" class="w-full h-full object-cover">
-                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div class="bg-gradient-to-r from-vvlight to-vvdark rounded-full p-1">
-                      <i class="fas fa-eye text-white text-xs"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-1 text-white">
-                  <h3 class="font-medium text-xs">Workshop Space</h3>
-                </div>
-              </button>
-              
-              <button id="view-2" class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none">
-                <div class="relative h-16 overflow-hidden">
-                  <img src="/assets/images360/seminar-floor.jpg" alt="Seminar Floor" class="w-full h-full object-cover">
-                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div class="bg-gradient-to-r from-vvlight to-vvdark rounded-full p-1">
-                      <i class="fas fa-eye text-white text-xs"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-1 text-white">
-                  <h3 class="font-medium text-xs">Seminar Floor</h3>
-                </div>
-              </button>
-              
-              <!-- Example of additional thumbnails for future expansion -->
-              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
-                <div class="relative h-16 overflow-hidden">
-                  <img src="/api/placeholder/400/320" alt="Lobby" class="w-full h-full object-cover">
-                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div class="bg-vvmedium rounded-full p-1">
-                      <i class="fas fa-lock text-white text-xs"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-1 text-white">
-                  <h3 class="font-medium text-xs">Lobby (Coming Soon)</h3>
-                </div>
-              </button>
-              
-              <button class="tour-thumb flex-shrink-0 w-40 bg-white/10 hover:bg-white/20 rounded overflow-hidden cursor-pointer transition-all border-2 border-transparent focus:outline-none opacity-50">
-                <div class="relative h-16 overflow-hidden">
-                  <img src="/api/placeholder/400/320" alt="Study Area" class="w-full h-full object-cover">
-                  <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div class="bg-vvmedium rounded-full p-1">
-                      <i class="fas fa-lock text-white text-xs"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-1 text-white">
-                  <h3 class="font-medium text-xs">Study Area (Coming Soon)</h3>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <!-- Available Tours Grid - Compact and optimized -->
-   
-    </div>
-    <!-- Tour Component End -->
-  </main>
+  <!-- JavaScript Initialization -->
+  <script is:inline>
+    // Global variables for tracking state
+    let currentFloor = "ground";
+    let viewer;
+    
+    // Tour data structure
+    const tourData = [
+      {
+        id: "workshop",
+        name: "Workshop Space",
+        description: "Engineering workshop with equipment",
+        panoramaPath: "/assets/images360/workshop-rizvi.jpg",
+        floor: "ground"
+      },
+      {
+        id: "seminar",
+        name: "Seminar Hall",
+        description: "Conference area with presentation space",
+        panoramaPath: "/assets/images360/seminar-floor.jpg",
+        floor: "third"
+      }
+      // Add more locations as they become available
+    ];
 
-  <!-- Main JavaScript for Tour Component - Enhanced with carousel functionality -->
-  <script is:inline >
     document.addEventListener("DOMContentLoaded", function () {
-      // Initialize the Tour Component
+      // Initialize Minimap
+      changeFloor('ground');
+      highlightAvailableRooms();
+
+      // Initialize Tour Component with Carousel
       initTourComponent();
       
-      // Carousel Navigation
-      setupCarousels();
+      // Setup Carousel Navigation
+      setupCarousel();
+    });
+
+    // Function to change the displayed floor on the minimap
+    function changeFloor(floorId) {
+      // Update current floor state
+      currentFloor = floorId;
       
-      // Fullscreen toggle functionality
-      document.getElementById('fullscreen-toggle').addEventListener('click', function() {
-        const container = document.getElementById('container');
-        if (!document.fullscreenElement) {
-          if (container.requestFullscreen) {
-            container.requestFullscreen();
-          } else if (container.webkitRequestFullscreen) {
-            container.webkitRequestFullscreen();
-          } else if (container.msRequestFullscreen) {
-            container.msRequestFullscreen();
-          }
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-          }
+      // Hide all floors
+      const floors = document.querySelectorAll('.floor-map');
+      floors.forEach(function(floor) {
+        floor.classList.remove('active');
+      });
+      
+      // Show the selected floor
+      const selectedFloor = document.getElementById(`floor-${floorId}`);
+      if (selectedFloor) {
+        selectedFloor.classList.add('active');
+      }
+      
+      // Update button states
+      const buttons = document.querySelectorAll('.floor-btn');
+      buttons.forEach(function(button) {
+        button.classList.remove('active');
+        if (button.getAttribute('data-floor') === floorId) {
+          button.classList.add('active');
         }
       });
-    });
+    }
     
-    function setupCarousels() {
-      // Thumbnails carousel navigation
+    // Function to handle room clicks from the minimap
+    function handleRoomClick(roomId) {
+      console.log("User clicked room:", roomId);
+      
+      // Find the room in tour data
+      const roomData = tourData.find(item => item.id === roomId);
+      if (roomData) {
+        // Navigate to the panorama
+        navigateToPanorama(roomId);
+        
+        // Update the active carousel item
+        updateActiveThumbnail(roomId);
+      }
+    }
+
+    // Function to highlight available rooms (ones that have panoramas)
+    function highlightAvailableRooms() {
+      // Get IDs of available rooms from tour data
+      const availableRooms = tourData.map(item => item.id);
+      
+      availableRooms.forEach(roomId => {
+        const roomElements = document.querySelectorAll(`[data-room-id="${roomId}"]`);
+        roomElements.forEach(room => {
+          room.classList.remove('room-unavailable');
+          room.classList.add('room-available');
+        });
+      });
+    }
+
+    // Setup carousel navigation
+    function setupCarousel() {
       const thumbnailsCarousel = document.getElementById('thumbnails-carousel');
       const prevCarouselBtn = document.getElementById('prev-carousel');
       const nextCarouselBtn = document.getElementById('next-carousel');
@@ -229,144 +550,75 @@
       nextCarouselBtn.addEventListener('click', () => {
         thumbnailsCarousel.scrollBy({ left: 200, behavior: 'smooth' });
       });
-      
-      // Tours carousel navigation
-      const toursCarousel = document.getElementById('tours-carousel');
-      const prevToursBtn = document.getElementById('prev-tours');
-      const nextToursBtn = document.getElementById('next-tours');
-      
-      prevToursBtn.addEventListener('click', () => {
-        toursCarousel.scrollBy({ left: -270, behavior: 'smooth' });
-      });
-      
-      nextToursBtn.addEventListener('click', () => {
-        toursCarousel.scrollBy({ left: 270, behavior: 'smooth' });
-      });
     }
-    
+
+    // Initialize Tour Component
     function initTourComponent() {
-      var viewer, container;
-      container = document.querySelector("#container");
-      
-      // Configuration options for the panorama
-      const tourConfig = {
-        autoRotate: true,
-        autoRotateSpeed: 0.5,
-        controlBar: true,
-        cameraFov: 75
-      };
-      
-      // Tour data - Future-proof structure with ability to add more locations
-      const tourData = [
-        {
-          id: "workshop",
-          name: "Workshop Space",
-          description: "Engineering workshop with equipment",
-          panoramaPath: "/assets/images360/workshop-rizvi.jpg",
-          thumbnailPath: "/api/placeholder/400/320"
-        },
-        {
-          id: "seminar",
-          name: "Seminar Floor",
-          description: "Conference area with presentation space",
-          panoramaPath: "/assets/images360/seminar-floor.jpg",
-          thumbnailPath: "/api/placeholder/400/320"
-        }
-        // Add more locations here as they become available
-      ];
-      
-      // Create panorama objects
-      const panoramas = tourData.map(location => 
-        new PANOLENS.ImagePanorama(location.panoramaPath)
-      );
+      const container = document.getElementById("container");
       
       // Viewer Setup
       viewer = new PANOLENS.Viewer({
         container: container,
-        autoRotate: tourConfig.autoRotate,
-        autoRotateSpeed: tourConfig.autoRotateSpeed,
-        controlBar: tourConfig.controlBar,
-        cameraFov: tourConfig.cameraFov
+        autoRotate: true,
+        autoRotateSpeed: 0.5,
+        controlBar: true,
+        cameraFov: 75
       });
       
-      // Function to create navigation infospots with arrows
-      function createInfospots() {
-        panoramas.forEach((panorama, index) => {
-          const nextPanorama = panoramas[(index + 1) % panoramas.length];
-          const nextLocation = tourData[(index + 1) % tourData.length];
-          
-          // Navigation Arrow Infospot at different positions
-          var positions = [
-            { x: -1500, y: 200, z: 1000 },
-            { x: 2000, y: -100, z: -1500 },
-            { x: -800, y: 300, z: 800 }
-          ];
-          
-          positions.forEach(pos => {
-            var arrowInfospot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Arrow);
-            arrowInfospot.position.set(pos.x, pos.y, pos.z);
-            arrowInfospot.addHoverText(`Go to ${nextLocation.name}`);
-            
-            // Click to navigate to next panorama
-            arrowInfospot.addEventListener("click", function () {
-              navigateToPanorama((index + 1) % panoramas.length);
-            });
-            
-            panorama.add(arrowInfospot);
-          });
-        });
-      }
-      
-      // Function to navigate to a specific panorama
-      function navigateToPanorama(index) {
-        viewer.setPanorama(panoramas[index]);
-        updateLocationInfo(index);
-        updateActiveThumbnail(index);
-        
-        // Ensure the active thumbnail is visible in the carousel
-        const thumbElement = document.getElementById(`view-${index + 1}`);
-        if (thumbElement) {
-          thumbElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      }
-      
-      // Function to update location information
-      function updateLocationInfo(index) {
-        document.getElementById("current-location").textContent = tourData[index].name;
-        document.getElementById("location-description").textContent = tourData[index].description;
-      }
-      
-      // Function to update active thumbnail
-      function updateActiveThumbnail(activeIndex) {
-        document.querySelectorAll(".tour-thumb").forEach((thumb, i) => {
-          if (i === activeIndex) {
-            thumb.classList.add("bg-white/20", "border-blue-500");
-            thumb.classList.remove("bg-white/10", "border-transparent");
-          } else {
-            thumb.classList.remove("bg-white/20", "border-blue-500");
-            thumb.classList.add("bg-white/10", "border-transparent");
-          }
-        });
-      }
-      
-      // Add all panoramas to viewer
-      panoramas.forEach((panorama) => {
-        viewer.add(panorama);
+      // Create panorama objects
+      const panoramas = {};
+      tourData.forEach(location => {
+        panoramas[location.id] = new PANOLENS.ImagePanorama(location.panoramaPath);
+        viewer.add(panoramas[location.id]);
       });
       
       // Create navigation infospots
-      createInfospots();
+      // Workshop to Seminar
+      const arrowToSeminar = new PANOLENS.Infospot(350, PANOLENS.DataImage.Arrow);
+      arrowToSeminar.position.set(-1500, 200, 1000);
+      arrowToSeminar.addHoverText("Go to Seminar Hall");
+      arrowToSeminar.addEventListener("click", () => {
+        navigateToPanorama("seminar");
+      });
+      panoramas["workshop"].add(arrowToSeminar);
       
-      // Start with the first panorama
-      navigateToPanorama(0);
+      // Seminar to Workshop
+      const arrowToWorkshop = new PANOLENS.Infospot(350, PANOLENS.DataImage.Arrow);
+      arrowToWorkshop.position.set(1500, -100, -1200);
+      arrowToWorkshop.addHoverText("Back to Workshop");
+      arrowToWorkshop.addEventListener("click", () => {
+        navigateToPanorama("workshop");
+      });
+      panoramas["seminar"].add(arrowToWorkshop);
+      
+      // Function to navigate to a panorama by ID
+      window.navigateToPanorama = function(roomId) {
+        if (panoramas[roomId]) {
+          viewer.setPanorama(panoramas[roomId]);
+          
+          // Find the room data
+          const roomData = tourData.find(item => item.id === roomId);
+          if (roomData) {
+            // Update location info
+            document.getElementById("current-location").textContent = roomData.name;
+            document.getElementById("location-description").textContent = roomData.description;
+            
+            // Update minimap to show correct floor
+            changeFloor(roomData.floor);
+            
+            // Update active thumbnail
+            updateActiveThumbnail(roomId);
+          }
+        }
+      };
       
       // Add event listeners to thumbnail buttons
-      document.getElementById("view-1").addEventListener("click", function() {
-        navigateToPanorama(0);
+      document.getElementById("view-workshop").addEventListener("click", function() {
+        navigateToPanorama("workshop");
       });
       
-      document.getElementById("view-2").addEventListener("click", function() {
-        navigateToPanorama(1);
+      document.getElementById("view-seminar").addEventListener("click", function() {
+        navigateToPanorama("seminar");
       });
       
       // Toggle autorotation
@@ -382,20 +634,47 @@
         }
       });
       
-      // Help button functionality
-      document.getElementById("help-button").addEventListener("click", function() {
-        alert("Navigation Tips:\n\n• Click and drag to look around\n• Click on arrows to move between locations\n• Use the carousel below to jump to specific viewpoints\n• Toggle auto-rotation with the ↻ button\n• Enter fullscreen with the ⤢ button");
+      // Fullscreen toggle
+      document.getElementById('fullscreen-toggle').addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+          container.requestFullscreen().catch(err => {
+            console.log(`Error attempting to enable fullscreen: ${err.message}`);
+          });
+        } else {
+          document.exitFullscreen();
+        }
       });
       
-      // Make the viewer component accessible globally for potential external interactions
-      window.panoramaViewer = {
-        viewer: viewer,
-        panoramas: panoramas,
-        navigateTo: navigateToPanorama,
-        tourData: tourData
-      };
+      // Help button
+      document.getElementById("help-button").addEventListener("click", function() {
+        alert("Navigation Tips:\n\n• Click and drag to look around\n• Click on arrows to move between locations\n• Use the carousel below to jump to specific viewpoints\n• Use the minimap to navigate between floors and rooms\n• Toggle auto-rotation with the ↻ button\n• Enter fullscreen with the ⤢ button");
+      });
       
-      return viewer;
+      // Start with workshop
+      navigateToPanorama("workshop");
+    }
+    
+    // Function to update active thumbnail in carousel
+    function updateActiveThumbnail(activeRoomId) {
+      document.querySelectorAll(".tour-thumb").forEach(thumb => {
+        // Remove active class from all thumbnails
+        thumb.classList.remove("bg-white/20");
+        thumb.classList.add("bg-white/10");
+        thumb.classList.remove("border-blue-500");
+        thumb.classList.add("border-transparent");
+      });
+      
+      // Add active class to current thumbnail
+      const activeThumb = document.getElementById(`view-${activeRoomId}`);
+      if (activeThumb) {
+        activeThumb.classList.add("bg-white/20");
+        activeThumb.classList.remove("bg-white/10");
+        activeThumb.classList.add("border-blue-500");
+        activeThumb.classList.remove("border-transparent");
+        
+        // Ensure active thumbnail is visible in carousel
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
   </script>
 </body>
