@@ -1,0 +1,113 @@
+---
+// ExperimentDownloader.astro
+// This component displays a card-based interface for downloading experiment notebooks and datasets
+---
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Experiment Downloads</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Experiment 2 -->
+  
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 2: Linear Regression</h3>
+      <div class="flex flex-col space-y-3">
+        <a href="/Exp_2_(Linear_Regression) (2).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+        <a href="/Housing.csv" download class="flex items-center justify-center bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+          Download Dataset
+        </a>
+      </div>
+    </div>
+    <!-- Experiment 3 -->
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 3: Multiple Linear Regression</h3>
+   
+      <div class="flex flex-col space-y-3">
+        <a href="/DAV_Exp_3_Multiple_Linear_Regression (5).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+        <a href="/Housing.csv" download class="flex items-center justify-center bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+          Download Dataset
+        </a>
+      </div>
+    </div>
+
+    
+    <!-- Experiment 4 -->
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 4: Time Series</h3>
+
+      <div class="flex flex-col space-y-3">
+        <a href="/Exp_4_DAV (1).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+        <a href="/Superstore_Sales_Records (1).xls" download class="flex items-center justify-center bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+          Download Dataset
+        </a>
+      </div>
+    </div>
+    <!-- Experiment 5 -->
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 5: Arima Model</h3>
+
+      <div class="flex flex-col space-y-3">
+        <a href="/DAV_Exp_5 (3).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+     
+        <p class="flex text-center">No dataset Required</p>
+      </div>
+    </div>
+    <!-- Experiment 6 -->
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 6: Twitter dataset Sentiment analysis</h3>
+
+      <div class="flex flex-col space-y-3">
+        <a href="/DAV_Exp_6 (3).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+        <p class="flex text-center">No dataset Required</p>
+
+      </div>
+    </div>
+    <!-- Experiment 7 -->
+    <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 7: Spam filter Model (Sentiment)</h3>
+
+      <div class="flex flex-col space-y-3">
+        <a href="/DAV_Exp_7 (1).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+          Download Notebook
+        </a>
+        <a href="/SMSSpamCollection (1).txt" download class="flex items-center justify-center bg-green-600 text-white font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+          Download Dataset
+        </a>
+      </div>
+    </div>
+       <!-- Experiment 8 -->
+       <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 8: Visualization in R (Wordcloud)</h3>
+  
+        <div class="flex flex-col space-y-3">
+          <a href="/Updated_Exp8_DAV_R (3).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+            Download Notebook
+          </a>
+          <p class="flex text-center">No dataset Required</p>
+
+        </div>
+      </div>
+           <!-- Experiment 9 -->
+           <div class="bg-white rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Experiment 9: Visualization in python (Wordcloud)</h3>
+      
+            <div class="flex flex-col space-y-3">
+              <a href="/exp_9(DAV) (2).ipynb" download class="flex items-center justify-center bg-blue-600 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                Download Notebook
+              </a>
+              <p class="flex text-center">No dataset Required</p>
+    
+            </div>
+          </div>
+  </div>
+</div>
