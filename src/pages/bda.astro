@@ -1,0 +1,612 @@
+---
+// src/pages/index.astro
+import CodeBlock from '../components/codeblock.astro';
+
+// The data from your HTML
+const experimentTitle = `Exp 1 Hadoop HDFS Practical: HDFS Basics, Hadoop Ecosystem Tools Overview. 
+Installing Hadoop. Copying File to Hadoop. Copy from Hadoop File system 
+and deleting file. Moving and displaying files in HDFS.`;
+
+const hadoopCode =
+`
+    !apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget -O hadoop-3.3.6.tar.gz -q https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+!tar -xzf hadoop-3.3.6.tar.gz
+
+# Set environment
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["HADOOP_HOME"] = "/content/hadoop-3.3.6"
+os.environ["PATH"] += ":/content/hadoop-3.3.6/bin"
+
+#mkdir: to create new directory
+!hdfs dfs -mkdir /221A061
+
+#ls: to list items
+!hdfs dfs -ls /
+
+!echo "221A061 - Daniyal Khan" > /content/sample2.txt
+!hdfs dfs -put /content/sample2.txt /221A061
+
+!hdfs dfs -cat /content/sample2.txt
+
+!hdfs dfs -get /content/sample2.txt /content/copied1.txt
+!cat /content/copied1.txt
+
+!hdfs dfs -cp /content/sample2.txt /content/sample4.txt
+!hdfs dfs -cat /content/sample4.txt
+
+!hdfs dfs -getmerge /uinno /content/merged.txt
+!cat /content/merged.txt
+
+!hdfs dfs -put -f /content/merged.txt /content/final_merged.txt
+
+!hdfs dfs -ls /uinno/
+
+!hdfs dfs -mv /content/sample2.txt /content/sample_new.txt
+!hdfs dfs -ls /content/
+
+!hdfs dfs -rm /content/sample_new.txt
+
+!hdfs dfs -ls /content/
+`.trim(); // .trim() cleans up leading/trailing whitespace
+---
+
+  <CodeBlock title={experimentTitle} code={hadoopCode} />
+
+  <CodeBlock title={`EXP 2: Use of Sqoop tool to transfer data between
+Hadoop and relational database servers.
+Write a Hive Query to Perform Data
+Analytics.`} code={`
+!pip install pyspark pyhive sqlalchemy pymysql
+
+from pyspark.sql import SparkSession
+import pandas as pd
+from sqlalchemy import create_engine
+
+spark = SparkSession.builder \
+    .appName("Sqoop_Hive_Simulation") \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+
+import sqlite3
+conn = sqlite3.connect("sample.db")
+cursor = conn.cursor()
+
+
+# Create table & insert data
+cursor.execute("CREATE TABLE IF NOT EXISTS student(roll no INT,uin TEXT, name TEXT, dept TEXT, stiphend INT)")
+cursor.executemany("INSERT INTO student VALUES (?, ?, ?, ?,?)", [
+    (1, "221A064","Owais", "AIDS", 145000),
+    (2, "221A005","Jane", "AIDS", 5000),
+    (3,"221A009", "Rock", "AIDS", 70000),
+    (4, "221A044","Chris", "AIDS", 15000),
+    (5, "240c004","Eva", "COMP", 65000)
+])
+conn.commit()
+
+
+df = pd.read_sql("SELECT * FROM student", conn)   # Sqoop Import Simulation
+spark_df = spark.createDataFrame(df)
+spark_df.createOrReplaceTempView("student")
+
+result = spark.sql("SELECT dept, AVG(stiphend) as avg_stiphend FROM student GROUP BY dept")
+
+result.show()`} />
+<CodeBlock title={`EXP 3: To install and configure
+MongoDB/Cassandra/HBase/Hypertable to
+execute NoSQL commands.`} code={`
+!pip install pymongo
+
+from pymongo import MongoClient
+
+# Replace with your actual MongoDB connection string
+client = MongoClient("mongodb+srv://Mansi:Mansi12345@cluster0.ypcmrzi.mongodb.net/")
+
+# Create or connect to a database
+db = client['Student']
+
+# Create or connect to a collection (similar to a table in SQL)
+collection = db['b1_4_student']
+
+# 1. Insert a single document
+doc = {"uin": "221A009", "rollno": 20, "name": "Juned"}
+collection.insert_one(doc)
+
+# 2. Insert multiple documents (like multiple rows)
+docs = [
+    {"uin": "221A029", "rollno": 35, "name": "Mahek"},
+    {"uin": "221A050", "rollno": 17, "name": "Saniya"},
+    {"uin": "221A013", "rollno": 30, "name": "Malikshah"}
+]
+collection.insert_many(docs)
+
+# 3. Find one document
+result = collection.find_one({"uin": "221A027"})
+print("Found one document:", result)
+
+# 4. Find all documents (like SELECT * in SQL)
+print("\nAll documents:")
+for docs in collection.find():
+    print(docs)
+
+# 5. Find with condition (like WHERE uin = in SQL)
+print("\nDocuments where uin = 221A013:")
+for docs in collection.find({"uin": "221A013"}):
+    print(docs)
+
+# 6. Update a document
+collection.update_one({"name": "Malikshah"}, {"$set": {"rollno": 30}})
+updated_doc = collection.find_one({"name": "Mahimi"})
+print("\nUpdated document:", updated_doc)
+
+# 7. Delete a document
+collection.delete_one({"name": "Owais"})
+deleted_doc = collection.find_one({"name": "Owais"})
+print("\nAfter deletion, found document:", deleted_doc)
+`} />
+<CodeBlock title={`EXP 4: Experiment on Hadoop Map-Reduce /
+PySpark: Implementing simple algorithms
+in Map-Reduce: Matrix multiplication,
+Aggregates, Joins, Sorting, Searching etc.`} code={`
+!apt-get update
+!apt-get install openjdk-11-jdk-headless -qq > /dev/null
+!wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+!tar -xzf hadoop-3.3.6.tar.gz
+!mv hadoop-3.3.6 /usr/local/hadoop
+
+
+import os
+
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-11-openjdk-amd64"
+os.environ["HADOOP_HOME"] = "/usr/local/hadoop"
+os.environ["PATH"] += ":/usr/local/hadoop/bin:/usr/local/hadoop/sbin"
+
+
+%%writefile input_matrix.txt
+A 0 0 1
+A 0 1 2
+A 0 2 3
+A 1 0 4
+A 1 1 5
+A 1 2 6
+B 0 0 7
+B 0 1 8
+B 1 0 9
+B 1 1 10
+B 2 0 11
+B 2 1 12
+
+
+# Mapper (matrix_mapper.py):
+%%writefile matrix_mapper.py
+#!/usr/bin/env python3
+import sys
+
+for line in sys.stdin:
+    parts = line.strip().split()
+    if len(parts) != 4:
+        continue
+    matrix, row, col, value = parts[0], int(parts[1]), int(parts[2]), int(parts[3])
+
+    if matrix == "A":
+        for k in range(2):   # number of columns in B
+            print(f"{row},{k}\tA,{col},{value}")
+    else:
+        for i in range(2):   # number of rows in A
+            print(f"{i},{col}\tB,{row},{value}")
+
+
+# Reducer (matrix_reducer.py):
+%%writefile matrix_reducer.py
+#!/usr/bin/env python3
+import sys
+from collections import defaultdict
+
+current_key = None
+A_vals = {}
+B_vals = {}
+total = 0
+
+for line in sys.stdin:
+    key, val = line.strip().split("\t")
+    tag, index, number = val.split(",")
+    index, number = int(index), int(number)
+
+    if current_key != key:
+        if current_key:
+            print(f"{current_key}\t{total}")
+        current_key = key
+        A_vals, B_vals = {}, {}
+        total = 0
+
+    if tag == "A":
+        A_vals[index] = number
+    else:
+        B_vals[index] = number
+
+    for k in A_vals:
+        if k in B_vals:
+            total = sum(A_vals[x] * B_vals[x] for x in A_vals if x in B_vals)
+
+if current_key:
+    print(f"{current_key}\t{total}")
+
+
+!chmod +x matrix_mapper.py
+!chmod +x matrix_reducer.py
+
+
+!hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+    -input input_matrix.txt \
+    -output output_matrix \
+    -mapper matrix_mapper.py \
+    -reducer matrix_reducer.py
+
+# PART 2
+!pip install pyspark
+from pyspark.sql import SparkSession
+
+# Initialize Spark
+spark = SparkSession.builder.appName("MapReduceOps").getOrCreate()
+
+data = [1,2,3,4,5]
+rdd = spark.sparkContext.parallelize(data)
+print("Aggregate Sum:", rdd.sum())
+
+unsorted_rdd = spark.sparkContext.parallelize([5,3,1,4,2])
+print("Sorted:", unsorted_rdd.sortBy(lambda x: x).collect())
+
+
+#Students:: (uin, name, dept_id)
+students= [(221064,"Owais",1),(2,"don",20),(3,"chris",1)]
+# Departments: (dept_id, dept_name)
+departments = [(1,"AIDS"),(20,"COMPUTER")]
+stu_df = spark.createDataFrame(students, ["uin","name","dept_id"])
+dept_df = spark.createDataFrame(departments, ["dept_id","dept_name"])
+
+joined = stu_df.join(dept_df, "dept_id").select("name","dept_name")
+joined.show()
+
+
+logs = ["error at line 1","normal event","critical error at line 2"]
+log_rdd = spark.sparkContext.parallelize(logs)
+errors = log_rdd.filter(lambda line: "error" in line.lower()).collect()
+print("Search Result:", errors)
+
+`}/>
+<CodeBlock title={`EXP 5: Create HIVE Database and Descriptive
+analytics-based statistics, visualization
+using Hive/PIG/R.`} code={`
+!pip install pyhive sqlalchemy pandas matplotlib rpy2 -q
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
+
+# Simulating Hive DB using SQLite (since Hive is not available in Colab)
+engine = create_engine('sqlite://', echo=False)
+
+data = {
+    "id": [1, 2, 3, 4, 5, 6],
+    "category": ["A", "B", "A", "B", "C", "C"],
+    "sales": [100, 150, 200, 120, 300, 250],
+    "quantity": [10, 15, 20, 12, 30, 25]
+}
+
+df = pd.DataFrame(data)
+
+# Load data into Hive-like (SQLite) table
+df.to_sql("sales_table", con=engine, index=False, if_exists="replace")
+
+print("✅ Hive Database (simulated) created successfully")
+df
+
+
+query1 = "SELECT category, COUNT(*) as total_records, AVG(sales) as avg_sales, SUM(quantity) as total_quantity FROM sales_table GROUP BY category"
+result = pd.read_sql(query1, engine)
+print("Descriptive Analytics Results:\n")
+print(result)
+
+
+result.plot(x="category", y=["avg_sales","total_quantity"], kind="bar", figsize=(6,4))
+plt.title("Category-wise Avg Sales & Total Quantity")
+plt.ylabel("Values")
+plt.show()
+`} />
+<CodeBlock title={`EXP 6: Write a program to implement word count
+programs using MapReduce`} code={`
+text = """hello 221A009
+hello Juned Khan
+hello mapreduce
+"""
+
+mapped = []
+for line in text.split("\n"):
+    for word in line.split():
+        mapped.append((word, 1))
+
+print("Mapper Output:")
+print(mapped)
+
+shuffle = {}
+for word, count in mapped:
+    if word in shuffle:
+        shuffle[word].append(count)
+    else:
+        shuffle[word] = [count]
+
+print("\nShuffled Output:")
+print(shuffle)
+
+
+reduced = {}
+for word, counts in shuffle.items():
+    reduced[word] = sum(counts)
+
+print("\nReducer Output (Final Word Count):")
+print(reduced)
+
+`} />
+<CodeBlock title={`EXP 7: Implementing DGIM algorithm using any
+Programming Language/ Implement Bloom
+Filter using any programming language.`} code={`
+import hashlib   # For creating different hash functions
+import math      # For log, exponent etc. (not compulsory here but useful)
+
+class BloomFilter:
+    def __init__(self, size=100, hash_count=3):
+        # 'size' = number of bits in bloom filter
+        # 'hash_count' = number of different hash functions we will use
+        self.size = size
+        self.hash_count = hash_count
+        self.bit_array = [0] * size   # initialize bit array with all 0s
+
+
+    def _get_hashes(self, item):
+        # Generate 'hash_count' different hashes for an item
+        hashes = []
+        for i in range(self.hash_count):
+            # Use hashlib with different salt values (str(i))
+            digest = hashlib.sha256((item + str(i)).encode('utf-8')).hexdigest()
+            # Convert hex digest to integer and take modulo size (to fit in bit array)
+            hash_value = int(digest, 16) % self.size
+            hashes.append(hash_value)
+        return hashes
+
+
+    def add(self, item):
+        # Add an item into bloom filter
+        for hash_val in self._get_hashes(item):
+            self.bit_array[hash_val] = 1  # set the bit to 1
+
+
+    def check(self, item):
+        # Check if an item is possibly in bloom filter
+        for hash_val in self._get_hashes(item):
+            if self.bit_array[hash_val] == 0:
+                # If any bit is 0, item is definitely not present
+                return False
+        # If all bits are 1, item is possibly present
+        return True
+# Create a bloom filter with size 50 bits and 3 hash functions
+bf = BloomFilter(size=50, hash_count=3)
+
+bf.add("221A009")
+bf.add("Daniyal")
+bf.add("Sarwar")
+bf.add("Khan")
+
+
+print("221A009 in filter?", bf.check("221A009"))   # True
+print("Daniyal in filter?", bf.check("Daniyal")) # True
+print("Sarwar in filter?", bf.check("Sarwar"))   # True
+print("221A009 in filter?", bf.check("Khan"))   #  True
+
+#PART 2
+
+class DGIM:
+    def __init__(self, window_size):
+        self.window_size = window_size   # total window size
+        self.buckets = []                # list of (timestamp, size) buckets
+        self.current_time = 0
+
+    def add_bit(self, bit):
+        self.current_time += 1
+        # Step 1: If bit is 1, add a new bucket of size 1
+        if bit == 1:
+            self.buckets.insert(0, (self.current_time, 1))
+
+        # Step 2: Merge buckets of same size (keep only 2 of each size)
+        i = 0
+        while i < len(self.buckets) - 2:
+            if (self.buckets[i][1] == self.buckets[i+1][1] == self.buckets[i+2][1]):
+                # merge last two into one bigger bucket
+                t, s = self.buckets[i+1]
+                self.buckets[i+1] = (t, s*2)
+                del self.buckets[i+2]
+            else:
+                i += 1
+
+        # Step 3: Remove buckets outside window
+        while self.buckets and self.buckets[-1][0] <= self.current_time - self.window_size:
+            self.buckets.pop()
+
+    def query(self, k):
+        """Estimate number of 1s in last k bits"""
+        total = 0
+        for i, (t, s) in enumerate(self.buckets):
+            if t > self.current_time - k:
+                if i == len(self.buckets) - 1:  # last bucket counted half
+                    total += s // 2
+                else:
+                    total += s
+        return total
+# Uin = 221A009
+stream = [1,0,0,0,1,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,1,1,1]
+dgim = DGIM(window_size=10)
+
+for bit in stream:
+    dgim.add_bit(bit)
+
+print("Estimate of 1s in last 5 bits:", dgim.query(5))
+print("Estimate of 1s in last 10 bits:", dgim.query(10))
+`} />
+<CodeBlock title={`EXP 8: Implementing any one Clustering algorithm
+(K-Means/CURE) using Map-Reduce`} code={`
+import numpy as np
+from collections import defaultdict
+import math
+
+class KMeansMapReduce:
+    def __init__(self, k=3, max_iterations=10):
+        self.k = k
+        self.max_iterations = max_iterations
+        self.centroids = None
+
+    def initialize_centroids(self, data):
+        """Initialize centroids randomly from data points"""
+        n_samples, n_features = data.shape
+        indices = np.random.choice(n_samples, self.k, replace=False)
+        self.centroids = data[indices].copy()
+
+    def euclidean_distance(self, point, centroid):
+        """Calculate Euclidean distance between point and centroid"""
+        return math.sqrt(sum((point[i] - centroid[i])**2 for i in range(len(point))))
+
+    def mapper(self, data_chunk):
+        """
+        Map phase: Assign each point to nearest centroid
+        Returns: list of (cluster_id, point) pairs
+        """
+        mapped_data = []
+        for point in data_chunk:
+            min_distance = float('inf')
+            closest_cluster = 0
+
+            # Find closest centroid
+            for i, centroid in enumerate(self.centroids):
+                distance = self.euclidean_distance(point, centroid)
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_cluster = i
+
+            mapped_data.append((closest_cluster, point))
+
+        return mapped_data
+
+    def reducer(self, mapped_data):
+        """
+        Reduce phase: Calculate new centroids
+        Returns: new centroids
+        """
+        cluster_data = defaultdict(list)
+
+        # Group points by cluster
+        for cluster_id, point in mapped_data:
+            cluster_data[cluster_id].append(point)
+
+        # Calculate new centroids
+        new_centroids = np.zeros((self.k, len(mapped_data[0][1])))
+
+        for cluster_id in range(self.k):
+            if cluster_id in cluster_data:
+                points = np.array(cluster_data[cluster_id])
+                new_centroids[cluster_id] = np.mean(points, axis=0)
+            else:
+                # If no points assigned to cluster, keep old centroid
+                new_centroids[cluster_id] = self.centroids[cluster_id]
+
+        return new_centroids
+
+    def fit(self, data):
+        """Train K-Means using MapReduce"""
+        self.initialize_centroids(data)
+
+        for iteration in range(self.max_iterations):
+            print(f"Iteration {iteration + 1}")
+
+            # Simulate data chunks (in real MapReduce, data would be distributed)
+            chunk_size = max(1, len(data) // 3)  # Simulate 3 mappers
+            chunks = [data[i:i+chunk_size] for i in range(0, len(data), chunk_size)]
+
+            # Map phase - process each chunk
+            all_mapped_data = []
+            for chunk in chunks:
+                mapped_chunk = self.mapper(chunk)
+                all_mapped_data.extend(mapped_chunk)
+
+            # Reduce phase - calculate new centroids
+            new_centroids = self.reducer(all_mapped_data)
+
+            # Check convergence
+            if np.allclose(self.centroids, new_centroids, atol=1e-4):
+                print(f"Converged after {iteration + 1} iterations")
+                break
+
+            self.centroids = new_centroids
+            print(f"New centroids: {self.centroids}")
+
+    def predict(self, data):
+        """Predict cluster labels for new data"""
+        labels = []
+        for point in data:
+            min_distance = float('inf')
+            closest_cluster = 0
+
+            for i, centroid in enumerate(self.centroids):
+                distance = self.euclidean_distance(point, centroid)
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_cluster = i
+
+            labels.append(closest_cluster)
+
+        return labels
+
+# Example usage
+if __name__ == "__main__":
+    # Generate sample data
+    np.random.seed(42)
+
+    # Create 3 clusters of data
+    cluster1 = np.random.normal([2, 2], 0.5, (30, 2))
+    cluster2 = np.random.normal([6, 6], 0.5, (30, 2))
+    cluster3 = np.random.normal([2, 6], 0.5, (30, 2))
+
+    data = np.vstack([cluster1, cluster2, cluster3])
+
+    # Run K-Means with MapReduce
+    kmeans = KMeansMapReduce(k=3, max_iterations=10)
+    kmeans.fit(data)
+
+    # Predict clusters
+    labels = kmeans.predict(data)
+
+    print(f"\nFinal centroids:")
+    for i, centroid in enumerate(kmeans.centroids):
+        print(f"Cluster {i}: [{centroid[0]:.2f}, {centroid[1]:.2f}]")
+
+    print(f"\nCluster assignments: {labels[:10]}...")  # Show first 10 labels
+    `} />
+
+  <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+      }
+
+      pre {
+        background-color: #1e1e1e;
+        color: #dcdcdc;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+
+      h1 {
+        text-align: center;
+      }
+    </style>

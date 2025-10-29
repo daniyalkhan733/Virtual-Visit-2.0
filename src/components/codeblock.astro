@@ -1,0 +1,69 @@
+---
+// src/components/CodeBlock.astro
+
+// 1. Props remain the same
+export interface Props {
+  title: string;
+  code: string;
+}
+
+const { title, code } = Astro.props;
+---
+
+<details class="group mb-4 max-w-full overflow-hidden p-4">
+  
+  <summary class="flex cursor-pointer list-none items-center justify-between bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-xl">
+    
+    <span class="font-semibold text-gray-800 dark:text-gray-200">
+      {title}
+    </span>
+    
+    <svg class="h-5 w-5 text-gray-600 transition-transform duration-200 group-open:rotate-180 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+  </summary>
+
+  <div class="pre-wrapper relative">
+    
+    <button class="copy-btn absolute right-3 top-3 z-10 flex items-center gap-2 rounded-md border border-gray-600 bg-gray-700 px-3 py-1.5 text-xs text-gray-300 transition-colors hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5H1.5a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5h13zM1 14V2h14v12H1z"/>
+        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z"/>
+      </svg>
+      <span>Copy</span>
+    </button>
+
+    <pre class="overflow-x-auto bg-gray-900 p-6 pb-6 pt-6 font-mono text-sm leading-relaxed text-gray-300 rounded-xl">
+      <code>{code}</code>
+    </pre>
+  </div>
+</details>
+<script is:inline src="https://cdn.tailwindcss.com"></script>
+<script is:inline>
+  document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+      // Use .closest() to find the parent wrapper, then find the <pre>
+      // This is slightly more robust than button.parentElement
+      const pre = button.closest('.pre-wrapper')?.querySelector('pre');
+      const code = pre?.textContent;
+
+      if (!code) return; // No code to copy
+
+      try {
+        await navigator.clipboard.writeText(code);
+        
+        // Give user feedback
+        const buttonText = button.querySelector('span');
+        if (buttonText) buttonText.innerText = 'Copied!';
+        
+        setTimeout(() => {
+          if (buttonText) buttonText.innerText = 'Copy';
+        }, 2000); // Reset text after 2 seconds
+
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+    });
+  });
+</script>
